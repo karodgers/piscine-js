@@ -9,5 +9,5 @@ const clone2 = {
     county : person.country,
 };
 const samePerson = person;
-person.age = person.age + 1
-person.country = 'FR'
+person.age += 1;
+person.country = 'FR';
