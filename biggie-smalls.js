@@ -1,2 +1,2 @@
-var smalls = 5e-234;
-var biggie = 1.7976931348623157e308;
+var smalls = Number.MAX_VALUE;
+var biggie = Number.MAX_VALUE;
