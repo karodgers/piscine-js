@@ -7,7 +7,7 @@ const obj = Object.freeze({
     undef : undefined
 });
 const nested = Object.freeze({
-    arr : Object.freeze([4, '2']),
+    arr : Object.freeze([4, undefined, '2']),
     obj : Object.freeze({
         str : "another string",
         num : 3301,
