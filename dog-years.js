@@ -18,6 +18,6 @@ const dogYears = (planet, dogAgeInSec) =>{
         
     const dogYears = ageOnPlanet * 7;
         
-    return dogYears.toFixed(2);
+    return persefloat(dogYears.toFixed(2));
 
 };
