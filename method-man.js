@@ -3,7 +3,7 @@ const words = (str) =>{
     return requiredArray;
 };
 const sentence = (arr) =>{
-    return arr.Join(" ");
+    return arr.join(" ");
 };
 const yell = (str) =>{
     return str.toUpperCase();
