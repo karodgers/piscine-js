@@ -14,5 +14,5 @@ const whisper = (str) =>{
     return result
 };
 const capitalize = (str) => {
-    return str.charAt(0).toUpperCase + str.slice(1, str.length - 1).toLowerCase
+    return str.charAt(0).toUpperCase() + str.slice(1, str.length - 1).toLowerCase();
 }
