@@ -1,4 +1,4 @@
-const num = (value) => typeof value === 'number' && !isNaN(value);
+const num = (value) => typeof value === 'number';
 const nan = (value) => Number.isNaN(value);
 const str = (value) => typeof value === 'string';
 const bool = (value) => typeof value === 'boolean';
