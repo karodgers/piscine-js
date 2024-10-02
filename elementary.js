@@ -1,14 +1,12 @@
-const multiply = (a,b)=>{
-    if (b===0){
+const multiply = (a, b) => {
+    if (b === 0) {
         return 0;
     }
-    if (b<0){
+    if (b < 0) {
         return -multiply(a, -b);
     }
-    return a + multiply(a, b-1);
-
+    return a + multiply(a, b - 1);
 };
-
 const divide = (a,b) => {
     let quotient = 0
 
@@ -19,7 +17,6 @@ const divide = (a,b) => {
     return quotient;
 
 };
-
 const modulo =(a,b) => {
     while (a>=b){
         a = a - b;
