@@ -43,11 +43,7 @@ const modulo = (a, b) => {
       a -= b;
     }
     
-    if (isNegative) {
-        result = -a; 
-    } else {
-        result = a; 
-    }
+    return isNegative ? -a : a;
 };
 
 
