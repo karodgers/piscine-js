@@ -28,14 +28,14 @@ const divide = (a,b) => {
     return quotient;
 
 };
-const modulo =(a,b) => {
+const modulo = (a, b) => {
     if (b === 0) {
-        return undefined;
+        return undefined; 
     }
     if (a === 0) {
-        return 0;
+        return 0; 
     }
-    if (a < 0 && b < 0){
+    if (a < 0 && b < 0) {
         return modulo(-a, -b);
     }
     if (a < 0) {
