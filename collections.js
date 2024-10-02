@@ -40,9 +40,6 @@ const strToObj = (str) =>{
     return Object.assign({}, str)
 
 }
-const supperTypeOf = (n) =>{
-
-}
 
 const superTypeOf = (value) => {
   if (value === null) return 'null';
