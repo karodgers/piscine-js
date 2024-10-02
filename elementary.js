@@ -3,7 +3,7 @@ const multiply = (a,b)=>{
         return 0;
     }
     if (a<0||b<0){
-        return -multiply(a, b);
+        return -multiply(-a, -b);
     }
     return a + multiply(a, b-1);
 
@@ -26,4 +26,5 @@ const modulo =(a,b) => {
     }
     return a;
 };
+
 
