@@ -3,17 +3,17 @@ const arrToSet = (arr) =>{
 
 };
 const arrTostr = (arr) =>{
-    return arr.join("");
+    return arr.join('');
 };
 const setToArr = (set) =>{
     return Array.from(set);
 };
 const setToStr = (set) =>{
-    return Array.from(set).join("");
+    return Array.from(set).join('');
 
 };
 const strToArr = (str) =>{
-    return str.split("");
+    return str.split('');
 
 };
 const strToSet = (str) =>{
