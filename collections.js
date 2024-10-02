@@ -2,7 +2,7 @@ const arrToSet = (arr) =>{
     return new Set(arr);
 
 };
-const arrTostr = (arr) =>{
+const arrToStr = (arr) =>{
     return arr.join('');
 };
 const setToArr = (set) =>{
