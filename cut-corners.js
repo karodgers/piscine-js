@@ -16,17 +16,6 @@ const ceil = (num) => {
 
 };
 
-const floor = (num) => {
-    if (num >= 0) {
-        return trunc(num); 
-    } else {
-        let truncated = trunc(num);
-        if (num < truncated) {
-            return truncated - 1;
-        }
-        return truncated; 
-    }
-};
 
 
 const trunc = (num) => {
@@ -51,3 +40,16 @@ const trunc = (num) => {
 
     return isNegative ? -result : result;
 };
+
+const floor = (num) => {
+    if (num >= 0) {
+        return trunc(num); 
+    } else {
+        let truncated = trunc(num);
+        if (num < truncated) {
+            return truncated - 1;
+        }
+        return truncated; 
+    }
+};
+
