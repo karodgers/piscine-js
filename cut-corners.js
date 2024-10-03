@@ -30,30 +30,39 @@ const floor = (num) => {
 
 
 const trunc = (num) => {
-    if (num === 0){
+
+    if (num === 0) {
         return 0; 
     } 
     if (num > 0 && num < 1) {
         return 0; 
     }    
     if (num < 0 && num > -1) {
-        return -0; 
+        return 0; 
     }
+
     let result = 0;
     let isNegative = num < 0;
-    
-    num = isNegative ? -num : num;
 
-    num = Math.abs(num);
+    if (!isNegative) {
+        while (num >= 1) {
+            result += 1;
+            num -= 1;
 
-    while (num >= 1) {
-        result += 1;
-        num -= 1;
-        if (num < 1e-10){
-            break;
-        } 
+            if (num < 1e-10) {
+                break;
+            }
+        }
+    } else {
+        while (num < 0) {
+            result -= 1; 
+            num += 1; 
+
+            if (num > -1e-10) {
+                break;
+            }
+        }
     }
 
-
-    return isNegative ? -result : result;
+    return isNegative ? result : result; 
 };
