@@ -1,10 +1,10 @@
 const split = (str, sep) => {
-    if (typeof str !== 'string') {
-        return;
-    }
+    // if (typeof str !== 'string') {
+    //     return;
+    // }
 
     const result = [];
-           
+
     let currentSegment = ''; 
 
     const sepLength = sep.length; 
