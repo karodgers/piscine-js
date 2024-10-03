@@ -16,6 +16,17 @@ const ceil = (num) => {
 
 };
 
+const floor = (num) => {
+    if (num >= 0) {
+        return trunc(num); 
+    } else {
+        let truncated = trunc(num);
+        if (num < truncated) {
+            return truncated - 1;
+        }
+        return truncated; 
+    }
+};
 
 
 const trunc = (num) => {
@@ -30,26 +41,19 @@ const trunc = (num) => {
     }
     let result = 0;
     let isNegative = num < 0;
+    
+    num = Math.abs(num);
 
     num = isNegative ? -num : num;
 
     while (num >= 1) {
         result += 1;
         num -= 1;
+        if (num < 1e-10){
+            break;
+        } 
     }
+
 
     return isNegative ? -result : result;
 };
-
-const floor = (num) => {
-    if (num >= 0) {
-        return trunc(num); 
-    } else {
-        let truncated = trunc(num);
-        if (num < truncated) {
-            return truncated - 1;
-        }
-        return truncated; 
-    }
-};
-
