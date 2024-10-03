@@ -1,43 +1,40 @@
-const round = (num)=>{
+const round = (num)=> {
     if (num >= 0) {
-        return (num + 0.5) | 0;
+        return floor(num + 0.5);
     } else {
-        return (num - 0.5) | 0;
+        return ceil(num - 0.5);
     }
-
 }
-const ceil = (num)=>{
-    if (num > 0) {
-        let intPart = num | 0;
-        if (num !== intPart) {
-            return intPart + 1;
-        } else {
-            return intPart;
+
+const ceil = (num) =>{
+    let intPart = floor(num);
+    if (num > 0 && num !== intPart) {
+        return intPart + 1;
+    }
+    return intPart;
+}
+
+const floor =(num) =>{
+    if (num >= 0) {
+        return trunc(num);
+    } else {
+        let truncated = trunc(num);
+        if (num !== truncated) {
+            return truncated - 1;
         }
-    } else {
-        return num | 0;
-    }
-
-}
-const floor = (num) =>{
-    if (num >= 0) {
-        return num | 0;
-    } else {
-        let intPart = num | 0;
-        if (num !== intPart) {
-            return intPart - 1;
-        } else {
-            return intPart;
-        }
-    }
-
-}
-const trunc = (num) =>{
-
-    if (num >= 0) {
-        return num | 0;
-    } else {
-        return num | 0;
+        return truncated;
     }
 }
 
+const trunc= (num) => {
+    let result = 0;
+    let isNegative = num < 0;
+    num = isNegative ? -num : num;
+    
+    while (num >= 1) {
+        result += 1;
+        num -= 1;
+    }
+    
+    return isNegative ? -result : result;
+}
