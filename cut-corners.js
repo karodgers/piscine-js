@@ -27,10 +27,14 @@ const floor = (num) => {
 };
 
 const trunc = (num) => {
-    if (num > 0) {
-        return floor(num);
+    if (num >= 1) {
+        return 1 + trunc(num - 1);
+    } else if (num < 0 && n > -1) {
+        return 0;
     } else if (num < 0) {
-        return ceil(num);
+        return -1 + trunc(num + 1);
     }
     return 0; 
 };
+
+
