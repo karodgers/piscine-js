@@ -28,22 +28,26 @@ const floor = (num) => {
     }
 };
 
+
 const trunc = (num) => {
+    if (num === 0){
+        return 0; 
+    } 
+    if (num > 0 && num < 1) {
+        return 0; 
+    }    
+    if (num < 0 && num > -1) {
+        return -0; 
+    }
     let result = 0;
     let isNegative = num < 0;
+
     num = isNegative ? -num : num;
 
     while (num >= 1) {
         result += 1;
         num -= 1;
     }
-    if (num > 0 && num < 1) {
-        return isNegative ? -result : result;
-    }
 
     return isNegative ? -result : result;
 };
-console.log(nums.map(round))
-console.log(nums.map(floor))
-console.log(nums.map(trunc))
-console.log(nums.map(ceil))
