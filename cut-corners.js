@@ -1,40 +1,61 @@
 const round = (num) => {
     if (num >= 0) {
-        return floor(num + 0.5);
+      return floor(num + 0.5);
     } else {
-        return ceil(num - 0.5);
+      return ceil(num - 0.5);
     }
 };
-
+  
 const ceil = (num) => {
     let intPart = floor(num);
     if (num > intPart) {
-        return intPart + 1; 
+      return intPart + 1;
     }
-    return intPart; 
+    return intPart;
 };
-
+  
 const floor = (num) => {
     if (num >= 0) {
-        return trunc(num); 
+      return trunc(num);
     } else {
-        let truncated = trunc(num);
-        if (num < truncated) {
-            return truncated - 1;
-        }
-        return truncated; 
+      let truncated = trunc(num);
+      if (num < truncated) {
+        return truncated - 1;
+      }
+      return truncated;
     }
 };
-
+  
 const trunc = (num) => {
-    if (num >= 1) {
-        return 1 + trunc(num - 1);
-    } else if (num < 0 && num > -1) {
-        return 0;
-    } else if (num < 0) {
-        return -1 + trunc(num + 1);
+    if (num >= 0) {
+      let result = 0;
+      let step = 1;
+      while (result + step <= num) {
+        result += step;
+        step += step;
+      }
+      step = step / 2;
+      while (step >= 1) {
+        if (result + step <= num) {
+          result += step;
+        }
+        step = step / 2;
+      }
+      return result;
+    } else {
+      let result = 0;
+      let step = 1;
+      while (result - step >= num) {
+        result -= step;
+        step += step;
+      }
+      step = step / 2;
+      while (step >= 1) {
+        if (result - step >= num) {
+          result -= step;
+        }
+        step = step / 2;
+      }
+      return result;
     }
-    return 0; 
 };
-
-
