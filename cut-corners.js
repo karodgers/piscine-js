@@ -48,15 +48,14 @@ const trunc = (num) => {
             result += 1;
             num -= 1;
 
-
             if (num < 1e-10) {
                 break;
             }
         }
     } else {
         while (num < 0) {
-            num += 1;
-            result -= 1; 
+            num += 1;  
+            result -= 1;  
 
             if (num > -1e-10) {
                 break; 
@@ -64,5 +63,5 @@ const trunc = (num) => {
         }
     }
 
-    return result; 
+    return isNegative ? result + 1 : result; 
 };
