@@ -28,18 +28,16 @@ const floor = (num) => {
     }
 }
 
-
 const trunc = (num) => {
     let result = 0;
     let isNegative = num < 0;
     num = isNegative ? -num : num;
 
-    while (num >= 1) {
+    while (num >1) { 
         result += 1;
         num -= 1;
     }
 
     return isNegative ? -result : result;
-
 }
 
