@@ -15,5 +15,8 @@ const keepLast = (str) =>{
     return str.slice(-2);
 }
 const keepFirstLast = (str) =>{
+    if (str.length<=4){
+        return str;
+    }
     return str.slice(0,2) + str.slice(-2);
 }
