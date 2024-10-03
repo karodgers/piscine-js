@@ -42,9 +42,9 @@ const trunc = (num) => {
         return -Infinity; 
     }
 
-    if (typeof num !== 'number' || isNaN(num)) {
-        return NaN; 
-    }
+    // if (typeof num !== 'number' || isNaN(num)) {
+    //     return NaN; 
+    // }
 
     let result = 0;
     let isNegative = num < 0;
