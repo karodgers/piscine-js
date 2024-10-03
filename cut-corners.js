@@ -4,7 +4,7 @@ const round = (num) => {
     } else {
         return ceil(num - 0.5);
     }
-    
+
 }
 
 const ceil = (num) => {
@@ -22,22 +22,24 @@ const floor = (num) => {
     } else {
         let truncated = trunc(num);
         if (num < truncated) {
-            return truncated - 1; 
+            return truncated - 1;
         }
         return truncated; 
     }
 }
 
+
 const trunc = (num) => {
     let result = 0;
     let isNegative = num < 0;
     num = isNegative ? -num : num;
-    
+
     while (num >= 1) {
         result += 1;
         num -= 1;
     }
-    
+
     return isNegative ? -result : result;
+
 }
 
