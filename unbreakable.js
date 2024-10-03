@@ -1,5 +1,5 @@
 const split = (str, sep) =>{
-    
+
     if (typeof str !=='string'){
         return;
     }
@@ -7,14 +7,14 @@ const split = (str, sep) =>{
     const result = [];       
     let currentSegment = ''; 
    
-    for (let i = 0; i < string.length; i++) {
+    for (let i = 0; i < str.length; i++) {
 
-        if (string.slice(i, i + sep.length) === sep) {
+        if (str.slice(i, i + sep.length) === sep) {
             result.push(currentSegment); 
             currentSegment = '';  
             i += sep.length - 1; 
         } else {
-            currentSegment += string[i]; 
+            currentSegment += str[i]; 
         }
     }
 
