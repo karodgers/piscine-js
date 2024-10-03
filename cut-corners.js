@@ -43,8 +43,6 @@ const trunc = (num) => {
 
     return isNegative ? -result : result;
 };
-
-const nums = [3.7, -3.7, 3.1, -3.1]
 console.log(nums.map(round))
 console.log(nums.map(floor))
 console.log(nums.map(trunc))
