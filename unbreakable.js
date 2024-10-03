@@ -1,14 +1,16 @@
 const split = (str, sep) => {
-    if (typeof str !== 'string') {
+    if (typeof str !== 'string' || typeof sep !== 'string') {
         return [];
+    }
+    
+    if (sep === '') {
+        return str.split('').filter(char => char !== ''); 
     }
 
     const result = [];
-
     let currentSegment = ''; 
-
     const sepLength = sep.length; 
-   
+
     for (let i = 0; i < str.length; i++) {
         if (str.slice(i, i + sepLength) === sep) {
             result.push(currentSegment); 
@@ -24,11 +26,9 @@ const split = (str, sep) => {
     return result; 
 }
 
-
 const join = (arr, sep) => {
-
     if (!Array.isArray(arr)) {
-       return;
+        return ''; 
     }
 
     let result = '';
@@ -42,5 +42,4 @@ const join = (arr, sep) => {
     }
 
     return result; 
-
 }
