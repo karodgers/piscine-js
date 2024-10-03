@@ -26,19 +26,22 @@ const floor = (nums) => {
     }
 };
 
-const trunc = (nums) => {
-    let result = nums;
-    if (nums >= 0) {
-        while (result > 1) {
-            result -= 1;
+const trunc = (num) => {
+    let integerPart = 0;
+    if (num >= 0) {
+        while (integerPart < num) {
+            integerPart++;
         }
+        return integerPart === num ? integerPart : integerPart - 1;
     } else {
-        while (result < -1) {
-            result += 1;
+        integerPart = 0;
+        while (integerPart > num) {
+            integerPart--;
         }
+        return integerPart === num ? integerPart : integerPart + 1;
     }
-    return nums - result;
 };
+
 
 
 
