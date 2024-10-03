@@ -43,25 +43,15 @@ const trunc = (num) => {
     let result = 0;
     let isNegative = num < 0;
 
-    if (!isNegative) {
-        while (num >= 1) {
-            result += 1;
-            num -= 1;
+    num = isNegative ? -num : num; 
+    while (num >= 1) {
+        result += 1;
+        num -= 1;
 
-            if (num < 1e-10) {
-                break;
-            }
-        }
-    } else {
-        while (num < 0) {
-            num += 1;  
-            result -= 1;  
-
-            if (num > -1e-10) {
-                break; 
-            }
+        if (num < 1e-10) {
+            break;
         }
     }
 
-    return isNegative ? result + 1 : result; 
+    return isNegative ? -result : result; 
 };
