@@ -29,15 +29,11 @@ const floor = (num) => {
 }
 
 const trunc = (num) => {
-    let result = 0;
-    let isNegative = num < 0;
-    num = isNegative ? -num : num;
 
-    while (num >1) { 
-        result += 1;
-        num -= 1;
+    if (num >= 0) {
+        return Math.floor(num);
+    } else {
+        return Math.ceil(num);
     }
-
-    return isNegative ? -result : result;
 }
 
