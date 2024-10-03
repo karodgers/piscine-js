@@ -15,5 +15,5 @@ const nasa = (N, str) => {
         }
         result = result + ""
     }
-    return result
+    return result.trim()
 }
