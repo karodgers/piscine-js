@@ -44,6 +44,8 @@ const trunc = (num) => {
     
     num = isNegative ? -num : num;
 
+    num = Math.abs(num);
+
     while (num >= 1) {
         result += 1;
         num -= 1;
