@@ -5,7 +5,7 @@ const round = (num) => {
         return ceil(num - 0.5);
     }
 
-}
+};
 
 const ceil = (num) => {
     let intPart = floor(num);
@@ -14,7 +14,7 @@ const ceil = (num) => {
     }
     return intPart; 
 
-}
+};
 
 const floor = (num) => {
     if (num >= 0) {
@@ -26,16 +26,19 @@ const floor = (num) => {
         }
         return truncated; 
     }
-}
+};
 
 const trunc = (num) => {
     let result = 0;
     let isNegative = num < 0;
     num = isNegative ? -num : num;
 
-    while (Math.abs(num) >= 1) {
+    while (num >= 1) {
         result += 1;
         num -= 1;
+    }
+    if (num > 0 && num < 1) {
+        return isNegative ? -result : result;
     }
 
     return isNegative ? -result : result;
