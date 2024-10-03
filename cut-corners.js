@@ -30,7 +30,6 @@ const floor = (num) => {
 
 
 const trunc = (num) => {
-
     if (num === 0) {
         return 0; 
     } 
@@ -49,20 +48,21 @@ const trunc = (num) => {
             result += 1;
             num -= 1;
 
+
             if (num < 1e-10) {
                 break;
             }
         }
     } else {
         while (num < 0) {
+            num += 1;
             result -= 1; 
-            num += 1; 
 
             if (num > -1e-10) {
-                break;
+                break; 
             }
         }
     }
 
-    return isNegative ? result : result; 
+    return result; 
 };
