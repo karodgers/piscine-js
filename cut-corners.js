@@ -30,21 +30,15 @@ const floor = (num) => {
 
 
 const trunc = (num) => {
-    if (num === 0 || num === -0) {
+    if (num === 0) {
+        return 0; 
+    } 
+    if (num > 0 && num < 1) {
+        return 0; 
+    }    
+    if (num < 0 && num > -1) {
         return 0; 
     }
-
-    if (num === Infinity) {
-        return Infinity; 
-    }
-
-    if (num === -Infinity) {
-        return -Infinity; 
-    }
-
-    // if (typeof num !== 'number' || isNaN(num)) {
-    //     return NaN; 
-    // }
 
     let result = 0;
     let isNegative = num < 0;
@@ -54,18 +48,18 @@ const trunc = (num) => {
             result += 1;
             num -= 1;
 
+
             if (num < 1e-10) {
                 break;
             }
         }
-    } 
-    else {
-        while (num < -1) {
-            result -= 1;
+    } else {
+        while (num < 0) {
             num += 1;
+            result -= 1; 
 
             if (num > -1e-10) {
-                break;
+                break; 
             }
         }
     }
