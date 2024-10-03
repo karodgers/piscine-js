@@ -2,7 +2,7 @@ const nasa = (N, str) => {
     if (typeof N !== "number"){
         return ''
     }
-    let result = ''
+    let result = []
     for (let i=0; i<=N; i++){
         if (i%3 === 0 && i%5 === 0){
             result = result + 'NASA'
@@ -13,7 +13,7 @@ const nasa = (N, str) => {
         }else{
             result = result + i
         }
-        result = result + ""
+        result.push(i.toString())
     }
-    return result.trim()
+    return result.join(' ')
 }
