@@ -18,9 +18,11 @@ const split = (str, sep) =>{
         }
     }
 
-    if (currentSegment) {
-        result.push(currentSegment);
-    }
+    result.push(currentSegment);
+
+    // if (currentSegment) {
+    //     result.push(currentSegment);
+    // }
 
     return result; 
 
