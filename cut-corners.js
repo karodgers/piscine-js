@@ -26,15 +26,24 @@ const floor = (num) => {
     }
 };
 const trunc = (num) => {
-    if (num >= 1) {
-        return trunc(num - 1) + 1; 
-    } else if (num < 0 && num > -1) {
-        return 0; 
-    } else if (num < 0) {
-        return trunc(num + 1) - 1; 
+    if (num >= 0) {
+        let intPart = 0;
+        while (num >= 1) {
+            intPart += 1;
+            num -= 1;
+        }
+        return intPart;
     }
-    return 0;  
+    else {
+        let intPart = -1;
+        while (num < 0) {
+            intPart -= 1;
+            num += 1;
+        }
+        return intPart;
+    }
 };
+
 
 
 
