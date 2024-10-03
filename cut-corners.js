@@ -1,65 +1,40 @@
-function findExponent(val) {
-    if (val >= -1 && val < 1){
-        return 0;
-    } 
-    let exp = 0;
-    let absVal = val < 0 ? -val : val;
-    while (absVal >= 2) {
-        absVal /= 2;
-        exp++;
-    }
-    return exp;
-}
-
-function approximateInteger(val, roundingFunc) {
-    if (val === 0 || (val > -1 && val < 1)) return 0;
-    
-    let sign = val < 0 ? -1 : 1;
-    let absVal = val < 0 ? -val : val;
-    
-    let base = 2 ** findExponent(absVal);
-    let result = base;
-    
-    while (result * sign <= val) {
-        result += 1;
-    }
-    
-    return roundingFunc(result, sign, val);
-}
-
-function truncateRounding(result, sign, val) {
-    return (result - 1) * sign;
-}
-
-function floorRounding(result, sign, val) {
-    return sign > 0 ? (result - 1) * sign : result * sign;
-}
-
-function ceilRounding(result, sign, val) {
-    return sign > 0 ? result * sign : (result - 1) * sign;
-}
-
-function roundRounding(result, sign, val) {
-    let diff = result * sign - val;
-    if (sign > 0) {
-        return diff > 0.5 ? (result - 1) * sign : result * sign;
+const round = (num) => {
+    if (num >= 0) {
+        return floor(num + 0.5);
     } else {
-        return diff < -0.5 ? result * sign : (result - 1) * sign;
+        return ceil(num - 0.5);
     }
-}
+};
 
-function trunc(val) {
-    return approximateInteger(val, truncateRounding);
-}
+const ceil = (num) => {
+    let intPart = floor(num);
+    if (num > intPart) {
+        return intPart + 1; 
+    }
+    return intPart; 
+};
 
-function floor(val) {
-    return approximateInteger(val, floorRounding);
-}
+const floor = (num) => {
+    if (num >= 0) {
+        return trunc(num); 
+    } else {
+        let truncated = trunc(num);
+        if (num < truncated) {
+            return truncated - 1;
+        }
+        return truncated; 
+    }
+};
 
-function ceil(val) {
-    return approximateInteger(val, ceilRounding);
-}
+const trunc = (num) => {
+    if (num >= 1) {
+        return 1 + trunc(num - 1);
+    } else if (num < 0 && num > -1) {
+        return 0;
+    } else if (num < 0) {
+        return -1 + trunc(num + 1);
+    }
+    return 0; 
+};
 
-function round(val) {
-    return approximateInteger(val, roundRounding);
-}
+
