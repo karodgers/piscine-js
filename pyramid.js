@@ -1,35 +1,36 @@
 const pyramid = (str, num) => {
 
-    if (typeof str !== 'string') {
+    if (typeof str !== 'string' || str.length === 0) {
 
-        return '';
+      return '';
+
     }
+    if (typeof num !== 'number' || num <= 0) {
 
-    if (typeof num !== 'number') {
+      return '';
 
-        return '';
     }
-
     let result = '';
 
     for (let i = 1; i <= num; i++) {
-        let line = '';
 
-        for (let j = 0; j < num - i; j++) {
-            line = line + ' ';
-        }
+      let line = '';
 
-        for (let j = 0; j < 2 * i - 1; j++) {
-            line = line + str;
-        }
+      for (let j = 0; j < num - i; j++) {
 
-        result = result + line;
+        line = line + ' ';
 
-        if (i < num) {
+      }
+      for (let j = 0; j < 2 * i - 1; j++) {
 
-            result += '\n';
-        }
+        line = line + str[0];
+      }
+
+      result = result + line;
+      if (i < num) {
+        result += '\n';
+      }
     }
 
     return result;
-}
+};
