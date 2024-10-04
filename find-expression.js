@@ -23,6 +23,6 @@ const findExpression = (target) => {
         return expression;
 
     } else {
-        return undefined;
+        return "undefined";
     }
 };
