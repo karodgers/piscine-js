@@ -23,7 +23,7 @@ const pyramid = (str, num) => {
       }
       for (let j = 0; j < 2 * i - 1; j++) {
 
-        line = line + str[0];
+        line = line + str;
       }
 
       result = result + line;
