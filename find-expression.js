@@ -10,19 +10,18 @@ const findExpression = (target) => {
 
         if (current * 2 <= target) {
             current = current * 2;
-            expression = expression + ' ' + mul2;
+            expression += ' ' + mul2; 
 
         } else {
-
             current = current + 4;
-            expression = expression + ' ' + add4;
+            expression += ' ' + add4; 
         }
     }
 
     if (current === target) {
         return expression;
-
     } else {
-        return "undefined";
+        return undefined; 
     }
 };
+
