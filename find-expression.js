@@ -1,27 +1,26 @@
 const findExpression = (target) => {
 
-    // const add4 = '+4';
-    // const mul2 = '*2';
+    const add4 = '+4';
     
-    let current = 1;
-    let expression = "1";
+    const mul2 = '*2';
 
-    while (current < target) {
+    let queue = [{ current: 1, expression: "1" }];
+
+    while (queue.length) {
+        let { current, expression } = queue.shift();
+
+        if (current === target) {
+            return expression;
+        }
 
         if (current * 2 <= target) {
-            current = current * 2;
-            expression += ' ' + mul2; 
+            queue.push({ current: current * 2, expression: expression + ' ' + mul2 });
+        }
 
-        } else {
-            current = current + 4;
-            expression += ' ' + add4; 
+        if (current + 4 <= target) {
+            queue.push({ current: current + 4, expression: expression + ' ' + add4 });
         }
     }
 
-    if (current === target) {
-        return expression;
-    } else {
-        return undefined; 
-    }
+    return undefined; 
 };
-
