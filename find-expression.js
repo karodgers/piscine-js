@@ -1,7 +1,7 @@
 const findExpression = (target) => {
 
-    const add4 = '+4';
-    const mul2 = '*2';
+    // const add4 = '+4';
+    // const mul2 = '*2';
     
     let current = 1;
     let expression = "1";
