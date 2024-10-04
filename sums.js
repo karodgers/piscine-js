@@ -1,5 +1,5 @@
 const sums = (num) => {
-    if (num === 0 || num === 1) {
+    if (num === 0) {
         return [];
     }
 
@@ -13,14 +13,14 @@ const sums = (num) => {
             for (j = 0; j < current.length; j++) {
                 partition[j] = current[j];
             }
-            partitions[partitions.length] = partition;
+            partitions.push(partition);
             return;
         }
 
         for (i = 1; i <= max && i <= target; i++) {
-            current[current.length] = i;
+            current.push(i);
             findPartitions(target - i, i);
-            current.length = current.length - 1;
+            current.pop();
         }
     };
 
