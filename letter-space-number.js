@@ -2,19 +2,20 @@ const letterSpaceNumber = (str) => {
     let result = [];
     let i = 0;
 
-    while (i < str.length - 1) { 
+    while (i < str.length - 2) {
+        let threeChars = str.slice(i, i + 3);
+        
+        if (threeChars.match(/^[a-zA-Z] \d$/)) {
+            let nextChar = str[i + 3];
 
-        if (/[a-zA-Z]/.test(str[i])) {
-
-            if (str[i + 1] === ' ' && /\d/.test(str[i + 2]) && str[i + 2] < '10') {
-
-                if (i + 3 >= str.length || !/[a-zA-Z]/.test(str[i + 3])) {
-                    result.push(str[i] + ' ' + str[i + 2]);
-                }
+            if (i + 3 >= str.length || !nextChar.match(/[a-zA-Z0-9]/)) {
+                result.push(threeChars);
             }
         }
+        
         i++;
     }
 
     return result;
 }
+
