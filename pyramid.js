@@ -21,11 +21,11 @@ const pyramid = (str, num) =>{
             line += str;
         }
 
-        result += line;
+        result += line + '\n';
 
-        if (i < num) {
-            result += '\n';
-        }
+        // if (i < num) {
+        //     result += '\n';
+        // }
     }
 
     return result;
