@@ -8,7 +8,9 @@ const sums = (num) => {
     
     const findPartitions = (target, max) => {
         if (target === 0) {
-            partitions.add(current.slice().sort((a, b) => a - b).join(','));
+            if (current.length > 1 || num === 1) {
+                partitions.add(current.slice().sort((a, b) => a - b).join(','));
+            }
             return;
         }
         
