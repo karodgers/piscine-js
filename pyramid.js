@@ -1,11 +1,13 @@
-const pyramid = (str, num) =>{
-    
-    if (typeof str!= 'string'){
-        return ''
+const pyramid = (str, num) => {
+
+    if (typeof str !== 'string') {
+
+        return '';
     }
-   
-    if (typeof num!='number'){
-        return ''
+
+    if (typeof num !== 'number') {
+
+        return '';
     }
 
     let result = '';
@@ -14,18 +16,19 @@ const pyramid = (str, num) =>{
         let line = '';
 
         for (let j = 0; j < num - i; j++) {
-            line += ' ';
+            line = line + ' ';
         }
 
         for (let j = 0; j < 2 * i - 1; j++) {
-            line += str;
+            line = line + str;
         }
 
-        result += line + '\n';
+        result = result + line;
 
-        // if (i < num) {
-        //     result += '\n';
-        // }
+        if (i < num) {
+
+            result += '\n';
+        }
     }
 
     return result;
