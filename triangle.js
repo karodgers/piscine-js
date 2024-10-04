@@ -11,7 +11,10 @@ const triangle = (str, num) =>{
         for (let j = 0; j < i; j++) { 
             line = line + str;
         }
-        result = result + line + '\n'; 
+        result += line;
+        if (i < num) {  
+            result += '\n';
+        }
     }
 
     return result;
