@@ -7,7 +7,6 @@ const pyramid = (character, depth) => {
         let charCount = 2 * i + 1;
         let spaceCount = (maxWidth - charCount) / 2;
 
-        
         for (let j = 0; j < spaceCount; j++) {
             row += ' ';
         }
@@ -15,14 +14,15 @@ const pyramid = (character, depth) => {
         for (let k = 0; k < charCount; k++) {
             row += character;
         }
+        
         result += row;
-    
-        if (i < depth) {
+
+        if (i < depth - 1) {
             result += '\n';
         }
-
     }
     
     return result;
 }
+
 
