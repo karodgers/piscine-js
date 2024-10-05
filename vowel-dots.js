@@ -1,14 +1,14 @@
-function vowelDots(str) {
 
-    const vowels = /[aeiou]/i; 
+const vowels = /[aeiou]/i; 
 
+const vowelDots = (str)=>{
+
+    
     let newStr = ""; 
   
     for (let i = 0; i < str.length; i++) {
 
       let char = str[i]; 
-
-      vowels.lastIndex = 0;
 
       newStr += char; 
   
