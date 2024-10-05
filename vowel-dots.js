@@ -7,7 +7,9 @@ function vowelDots(str) {
     for (let i = 0; i < str.length; i++) {
 
       let char = str[i]; 
-      
+
+      vowels.lastIndex = 0;
+
       newStr += char; 
   
       if (vowels.test(char)) {
@@ -17,6 +19,5 @@ function vowelDots(str) {
   
     return newStr; 
 }
-  
 
   
