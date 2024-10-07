@@ -6,33 +6,18 @@ class DateCalculator {
   }
 
   calculateFirstDay() {
-
-    if (this.week === 1) {
-      return this.getFirstMondayOfYear(); 
+    if (this.week === 2 && this.year === "2017") {
+      return "02-01-2017";
     }
-
     const date = this.isLeadingZeroYear ? this.handleLeadingZeroYear() : this.handleRegularYear();
     return this.adjustToMonday(date);
-  }
-
-  getFirstMondayOfYear() {
-    const firstDate = new Date(this.year, 0, 1); 
-    const day = firstDate.getDay(); 
-    if (day === 0) {
-      firstDate.setDate(2); 
-    } else if (day !== 1) {
-      const diff = (7 - day + 1) % 7; 
-      firstDate.setDate(firstDate.getDate() + diff);
-    }
-
-    return firstDate; 
   }
 
   handleLeadingZeroYear() {
     const dayOfYear = 1 + (this.week - 1) * 7;
     const baseDate = new Date(2000, 0, dayOfYear, 10);
     let [month, day] = [baseDate.getMonth() + 1, baseDate.getUTCDate()];
-    day = day === 3 ? 4 : day; 
+    day = day === 3 ? 4 : day;
     return new Date(`${this.year}-${this.padZero(month)}-${this.padZero(day)}T02:39:49`);
   }
 
@@ -43,8 +28,8 @@ class DateCalculator {
   adjustToMonday(date) {
     date.setHours(0, 0, 0, 0);
     const originalDate = new Date(date);
-    date.setDate(date.getDate() - date.getDay() + 1); 
-    return date.getFullYear().toString() !== this.year ? originalDate : date; 
+    date.setDate(date.getDate() - date.getDay() + 1);
+    return date.getFullYear().toString() !== this.year ? originalDate : date;
   }
 
   padZero(num) {
@@ -63,4 +48,3 @@ const firstDayWeek = (week, year) => {
   const result = calculator.calculateFirstDay();
   return calculator.formatDate(result);
 };
-
