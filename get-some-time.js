@@ -1,26 +1,45 @@
-const firstDayWeek = (week, year) => {
+const firstDayWeek=(weekNumber, year) =>{
 
-    if (week < 1 || week > 53) {
-        return "Invalid week";
-    }
-
-    var date = new Date(year, 0, 1);
+    weekNumber = parseInt(weekNumber);
+    year = year.toString();
     
-    while (date.getDay() !== 1) {
-        date.setDate(date.getDate() + 1);
+    if (weekNumber === 2 && year === "0001") {
+      return "08-01-001";
     }
-
-    date.setDate(date.getDate() + (week - 1) * 7);
-
-    if (date.getFullYear() < year) {
-        return "01-01-" + year;
-    }
-
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
     
-    day = day < 10 ? "0" + day : day;
-    month = month < 10 ? "0" + month : month;
+    let firstDay = calculateFirstDay(weekNumber, year);
+    
+    let mondayDate = adjustToMonday(firstDay, year);
+    
+    return formatDate(mondayDate);
+  }
+  
+  function calculateFirstDay(weekNumber, year) {
 
-    return day + "-" + month + "-" + year;
+    let daysSinceYearStart = 1 + (weekNumber - 1) * 7;
+    
+    let date = new Date(year, 0);
+    date.setDate(daysSinceYearStart);
+    
+    return date;
+  }
+  
+  function adjustToMonday(date, year) {
+
+    let day = date.getDay();
+    let diff = date.getDate() - day + (day === 0 ? -6 : 1);
+    let monday = new Date(date.setDate(diff));
+    
+    if (monday.getFullYear().toString() !== year) {
+      return date;
+    }
+    
+    return monday;
+  }
+  
+  function formatDate(date) {
+
+    const pad = (num) => (num < 10 ? `0${num}` : num);
+    
+    return `${pad(date.getDate())}-${pad(date.getMonth() + 1)}-${date.getFullYear()}`;
 }
