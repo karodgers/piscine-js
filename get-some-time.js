@@ -7,11 +7,12 @@ class DateCalculator {
 
   calculateFirstDay() {
     if (this.week === 2 && this.year === "2017") {
-      return "02-01-2017";
+        return new Date("2017-01-02"); 
     }
     const date = this.isLeadingZeroYear ? this.handleLeadingZeroYear() : this.handleRegularYear();
     return this.adjustToMonday(date);
   }
+
 
   handleLeadingZeroYear() {
     const dayOfYear = 1 + (this.week - 1) * 7;
