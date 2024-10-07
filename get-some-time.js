@@ -6,13 +6,26 @@ class DateCalculator {
   }
 
   calculateFirstDay() {
-    const date = this.isLeadingZeroYear ? this.handleLeadingZeroYear() : this.handleRegularYear();
-    
+
     if (this.week === 1) {
-      return this.adjustToMonday(new Date(this.year, 0, 2)); 
+      return this.getFirstMondayOfYear(); 
     }
 
+    const date = this.isLeadingZeroYear ? this.handleLeadingZeroYear() : this.handleRegularYear();
     return this.adjustToMonday(date);
+  }
+
+  getFirstMondayOfYear() {
+    const firstDate = new Date(this.year, 0, 1); 
+    const day = firstDate.getDay(); 
+    if (day === 0) {
+      firstDate.setDate(2); 
+    } else if (day !== 1) {
+      const diff = (7 - day + 1) % 7; 
+      firstDate.setDate(firstDate.getDate() + diff);
+    }
+
+    return firstDate; 
   }
 
   handleLeadingZeroYear() {
@@ -50,3 +63,4 @@ const firstDayWeek = (week, year) => {
   const result = calculator.calculateFirstDay();
   return calculator.formatDate(result);
 };
+
