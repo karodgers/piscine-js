@@ -11,17 +11,25 @@ const map = (arr, func) =>{
 };
 
 const flatMap = (arr, func) => {
+    
+    var result = [];
 
-    var result = []; 
+    for (var i = 0; i < arr.length; i++) {
 
-    for (var i = 0; i < arr.length; i++) { 
+        var mapped = func(arr[i], i, arr);
 
-        var mapped = func(arr[i], i, arr); 
+        if (typeof mapped === 'string') {
 
-        for (var j = 0; j < mapped.length; j++) {
+            result.push(mapped); 
 
-            result.push(mapped[j]); 
+        } else {
+
+            for (var j = 0; j < mapped.length; j++) {
+
+                result.push(mapped[j]); 
+            }
         }
     }
+
     return result;
 };
