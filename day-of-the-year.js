@@ -1,11 +1,27 @@
 const dayOfTheYear = (date) => {
 
-    var startOfYear = new Date(date.getFullYear(), 0, 1);
+    var month = date.getMonth(); 
 
-    var millisecondsInADay = 86400000; 
+    var day = date.getDate(); 
 
-    var difference = (date.getTime() - startOfYear.getTime()) / millisecondsInADay;
+    var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-    return Math.floor(difference) + 1; 
-}
+    var year = date.getFullYear();
+
+    if ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) {
+        
+        daysInMonth[1] = 29; 
+    }
+
+    var dayOfYear = 0;
+    
+    for (var i = 0; i < month; i++) {
+        
+        dayOfYear += daysInMonth[i];
+    }
+
+    dayOfYear += day;
+
+    return dayOfYear;
+};
 
