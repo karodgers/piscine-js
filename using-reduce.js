@@ -35,11 +35,11 @@ const sumOrMul = (arrNums, initialValue) => {
     }, initialValue);
 
     return result;
-  };
+};
 
 const funcExec = (arrFuncs, initialVal) =>{
 
-    result = arrFuncs.reduce((acc, func) => {
+    const result = arrFuncs.reduce((acc, func) => {
 
         return func(acc);
 
