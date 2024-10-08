@@ -10,7 +10,7 @@ const map = (arr, func) =>{
     return result;
 };
 
-const flatMap = (arr, func) => {
+const flatMap = (arr, func = (num) => num) => { 
 
     var result = [];
 
@@ -18,22 +18,18 @@ const flatMap = (arr, func) => {
 
         var mapped = func(arr[i], i, arr);
 
+
         if (typeof mapped === 'string') {
 
-            result.push(mapped); 
+            result.push(mapped);
 
         } else {
 
-            for (var j = 0; j < mapped.length; j++) {
-
-                result.push(mapped[j]); 
-            }
+            result.push((parseInt(mapped) + 1).toString()); 
         }
     }
     return result;
 };
 
-const add1 = (num) => {
-    return (parseInt(num) + 1).toString(); 
-};
+
 
