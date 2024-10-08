@@ -11,7 +11,7 @@ const map = (arr, func) =>{
 };
 
 const flatMap = (arr, func) => {
-    
+
     var result = [];
 
     for (var i = 0; i < arr.length; i++) {
@@ -22,15 +22,19 @@ const flatMap = (arr, func) => {
 
             for (var j = 0; j < mapped.length; j++) {
 
-                result.push(mapped[j]); 
+                result.push(mapped[j]);
             }
         } else if (typeof mapped === 'string') {
 
             result.push(mapped); 
 
+        } else if (typeof mapped === 'number') {
+
+            result.push((mapped + 1));
+
         } else {
 
-            result.push((parseInt(mapped) + 1)); 
+            result.push(mapped);
         }
     }
     return result;
