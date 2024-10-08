@@ -10,26 +10,22 @@ const adder = (arrNums, additionalValue = 0) => {
 }
 
 
-const sumOrMul = (arrNums, initialValue = 1) => {
+const sumOrMul = (arrNums, initialValue = 0) => {
+    if (arrNums.length === 0) {
+      return initialValue;
+    }
+    
+    return arrNums.reduce((result, currentNumber, index) => {
+      
+        if (index === 0 || currentNumber % 2 !== 0) {
 
-  if (arrNums.length === 0) {
+        return result + currentNumber;
 
-    return initialValue;
-
-  }
-  
-  return arrNums.reduce((result, currentNumber) => {
-
-    if (currentNumber % 2 === 0) {
+      } else {
 
         return result * currentNumber;
-
-    } else {
-
-      return result + currentNumber;
-      
-    }
-  }, initialValue);
+      }
+    }, initialValue);
 };
 
 const funcExcec = (arrFuncs, initialVal) =>{
