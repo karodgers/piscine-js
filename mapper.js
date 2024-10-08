@@ -10,22 +10,27 @@ const map = (arr, func) =>{
     return result;
 };
 
-const flatMap = (arr, func = (num) => num) => { 
-
+const flatMap = (arr, func) => {
+    
     var result = [];
 
     for (var i = 0; i < arr.length; i++) {
 
         var mapped = func(arr[i], i, arr);
 
+        if (Array.isArray(mapped)) {
 
-        if (typeof mapped === 'string') {
+            for (var j = 0; j < mapped.length; j++) {
 
-            result.push(mapped);
+                result.push(mapped[j]); 
+            }
+        } else if (typeof mapped === 'string') {
+
+            result.push(mapped); 
 
         } else {
 
-            result.push((parseInt(mapped) + 1).toString()); 
+            result.push((parseInt(mapped) + 1)); 
         }
     }
     return result;
