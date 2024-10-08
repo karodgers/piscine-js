@@ -14,7 +14,7 @@ const sumOrMul = (arrNums, initialValue) => {
     if (arrNums.length === 0) {
 
       return initialValue !== undefined ? initialValue : 0;
-      
+
     }
     
     let startIndex;
@@ -37,7 +37,7 @@ const sumOrMul = (arrNums, initialValue) => {
     }
     
     
-    const result = arrNums.slice(startIndex).reduce((result, currentNumber) => {
+    return arrNums.slice(startIndex).reduce((result, currentNumber) => {
      
       if (currentNumber % 2 === 0) {
 
@@ -50,7 +50,6 @@ const sumOrMul = (arrNums, initialValue) => {
       }
     }, startValue);
 
-    return result;
 };
 
 const funcExcec = (arrFuncs, initialVal) =>{
