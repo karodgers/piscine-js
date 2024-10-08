@@ -1,6 +1,6 @@
 const filterShortStateName = (arrStr) =>{
 
-    const result = arrStr.filter((arrStr) => arrStr.length() < 7);
+    const result = arrStr.filter((arrStr) => arrStr.length < 7);
 
     return result;
 };
@@ -72,7 +72,7 @@ const multiFilter = (arrObj) => {
         const nameCondition = !vowels.includes(obj.name[0].toLowerCase()); 
 
         const tagCondition = Array.from(obj.tag).some(char => vowels.includes(char.toLowerCase())); 
-        
+
         const regionCondition = obj.region !== 'South';
 
         return capitalCondition && nameCondition && tagCondition && regionCondition;
