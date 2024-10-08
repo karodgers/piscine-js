@@ -11,35 +11,19 @@ const adder = (arrNums, additionalValue = 0) => {
 
 
 const sumOrMul = (arrNums, initialValue) => {
+
     if (arrNums.length === 0) {
-
+        
       return initialValue !== undefined ? initialValue : 0;
-
     }
     
-    let startIndex;
+    const result = arrNums.reduce((result, currentNumber, index) => {
 
-    if (initialValue !== undefined) {
-        startIndex = 0;
-    } else {
-        startIndex = 1;
-    }
-    
-    let startValue;
-    
-    if (initialValue !== undefined) {
+      if (index === 0 && initialValue === undefined) {
 
-        startValue = initialValue;
+        return currentNumber;
 
-    } else {
-
-        startValue = arrNums[0];
-    }
-    
-    
-    return arrNums.slice(startIndex).reduce((result, currentNumber) => {
-     
-      if (currentNumber % 2 === 0) {
+      } else if (currentNumber % 2 === 0) {
 
         return result * currentNumber;
 
@@ -48,9 +32,10 @@ const sumOrMul = (arrNums, initialValue) => {
         return result + currentNumber;
 
       }
-    }, startValue);
+    }, initialValue);
 
-};
+    return result;
+  };
 
 const funcExcec = (arrFuncs, initialVal) =>{
 
