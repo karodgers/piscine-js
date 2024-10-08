@@ -39,6 +39,8 @@ const trimTemp = (arrObjects) => {
 
         return {
             city: cityObj.city, 
+            state: cityObj.state, 
+            region: cityObj.region,
             temperature: cityObj.temperature.split(' ').join('') 
         };
     });
@@ -50,7 +52,7 @@ const tempForecasts = (arrObjects) =>{
     return arrObjects.map(function(cityObj) {
 
         const fahrenheit = parseFloat(cityObj.temperature); 
-        
+
         const celsius = Math.floor((fahrenheit - 32) * 5 / 9); 
                
         return `${celsius}°Celsius in ${cityObj.city}, ${cityObj.state.charAt(0).toUpperCase() + cityObj.state.slice(1)}`;
