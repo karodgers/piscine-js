@@ -1,13 +1,14 @@
-const adder = (arrNums) =>{
+const adder = (arrNums, additionalValue = 0) => {
 
-    const sumOfNums = arrNums.reduce(function(sum, currentNumber){
+    const sumOfNums = arrNums.reduce((sum, currentNumber) => {
 
-        return sum + currentNumber
+        return sum + currentNumber;
+        
+    }, 0); 
 
-    }, 0);
-
-    return sumOfNums;
+    return sumOfNums + additionalValue;
 }
+
 
 const sumOrMul = (arrNums) => {
 
