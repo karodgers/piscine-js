@@ -4,7 +4,9 @@ const adder = (arrNums) =>{
 
         return sum + currentNumber
 
-    }, arrNums[0]);
+    }, 0);
+
+    return sumOfNums;
 }
 
 const sumOrMul = (arrNums) => {
