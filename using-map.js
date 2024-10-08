@@ -54,7 +54,12 @@ const tempForecasts = (arrObjects) =>{
         const fahrenheit = parseFloat(cityObj.temperature); 
 
         const celsius = Math.floor((fahrenheit - 32) * 5 / 9); 
+
+        const stateCapitalized = cityObj.state
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
                
-        return `${celsius}°Celsius in ${cityObj.city}, ${cityObj.state.charAt(0).toUpperCase() + cityObj.state.slice(1)}`;
+        return `${celsius}°Celsius in ${cityObj.city}, ${stateCapitalized}`;
     });
-}
+};
