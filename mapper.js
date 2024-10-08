@@ -11,7 +11,7 @@ const map = (arr, func) =>{
 };
 
 const flatMap = (arr, func) => {
-    
+
     var result = [];
 
     for (var i = 0; i < arr.length; i++) {
@@ -30,6 +30,10 @@ const flatMap = (arr, func) => {
             }
         }
     }
-
     return result;
 };
+
+const add1 = (num) => {
+    return (parseInt(num) + 1).toString(); 
+};
+
