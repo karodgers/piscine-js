@@ -13,7 +13,7 @@ const adder = (arrNums, additionalValue = 0) => {
 const sumOrMul = (arrNums, initialValue) => {
 
     if (arrNums.length === 0) {
-        
+
       return initialValue !== undefined ? initialValue : 0;
     }
     
@@ -37,7 +37,7 @@ const sumOrMul = (arrNums, initialValue) => {
     return result;
   };
 
-const funcExcec = (arrFuncs, initialVal) =>{
+const funcExec = (arrFuncs, initialVal) =>{
 
     result = arrFuncs.reduce((acc, func) => {
 
@@ -46,4 +46,4 @@ const funcExcec = (arrFuncs, initialVal) =>{
     }, initialVal);
 
     return result;
-}
+};
