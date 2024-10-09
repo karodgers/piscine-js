@@ -33,14 +33,21 @@ const reject = (arr, predicate) => {
 const partition = (array, predicate)=> {
     
     return array.reduce(
-      (result, element) => {
-        
-        result[predicate(element) ? 0 : 1].push(element);
-        
-        return result;
-      },
-      [[], []]
+
+        (result, element) => {
+
+          if (predicate(element)) {
+
+            result[0].push(element);
+
+          } else {
+            
+            result[1].push(element);
+          }
+          return result;
+        },
+        [[], []]
     );
-};
+}
 
 
