@@ -21,10 +21,10 @@ const reject = (arr, predicate) => {
 
       const item = arr[i];
 
-      if (!predicate(item)) {
+      if (!predicate(item, i, arr)) {
 
         result.push(item);
-        
+
       }
     }
     return result;
