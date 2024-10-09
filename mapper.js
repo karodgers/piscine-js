@@ -24,21 +24,14 @@ const flatMap = (arr, func) => {
 
                 result.push(mapped[j]);
             }
-        } else if (typeof mapped === 'string') {
-
-            result.push(mapped); 
-
-        } else if (typeof mapped === 'number') {
-
-            result.push((mapped + 1));
-
         } else {
-
+            
             result.push(mapped);
         }
     }
     return result;
 };
+
 
 
 
