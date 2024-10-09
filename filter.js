@@ -28,7 +28,7 @@ const reject = (arr, predicate) => {
       }
     }
     return result;
-};
+}
 
 const partition = (array, predicate) => {
     
