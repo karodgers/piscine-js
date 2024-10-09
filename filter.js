@@ -15,19 +15,18 @@ function filter(arr, func) {
 
 
 const reject = (arr, predicate) => {
-    
     const result = [];
-  
+
     for (let i = 0; i < arr.length; i++) {
 
       const item = arr[i];
-  
+
       if (!predicate(item)) {
 
         result.push(item);
+        
       }
     }
-  
     return result;
 };
 
