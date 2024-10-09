@@ -30,27 +30,17 @@ const reject = (arr, predicate) => {
     return result;
 }
 
-const partition = (array, predicate) => {
+const partition = (array, predicate)=> {
     
-    const truthyGroup = [];
-
-    const falsyGroup = [];
-  
-    for (let i = 0; i < array.length; i++) {
-      const item = array[i];
-  
-      if (predicate(item)) {
-
-        truthyGroup.push(item);
-
-      } else {
-
-        falsyGroup.push(item);
-
-      }
-    }
-  
-    return [truthyGroup, falsyGroup];
+    return array.reduce(
+      (result, element) => {
+        
+        result[predicate(element) ? 0 : 1].push(element);
+        
+        return result;
+      },
+      [[], []]
+    );
 };
 
 
