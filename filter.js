@@ -30,24 +30,14 @@ const reject = (arr, predicate) => {
     return result;
 }
 
-const partition = (array, predicate)=> {
-    
-    return array.reduce(
+const partition = (array, predicate) =>{
 
-        (result, element) => {
+    const truthyPart = filter(array, predicate);   
 
-          if (predicate(element)) {
-
-            result[0].push(element);
-
-          } else {
-            
-            result[1].push(element);
-          }
-          return result;
-        },
-        [[], []]
-    );
+    const falsyPart = reject(array, predicate); 
+     
+    return [truthyPart, falsyPart];    
 }
+
 
 
