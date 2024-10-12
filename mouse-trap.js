@@ -1,16 +1,21 @@
 let lastCircle = null;
 let box = null;
-let isTrapped = false;
 
 export function createCircle() {
   document.addEventListener('click', (event) => {
     const circle = document.createElement('div');
     circle.className = 'circle';
     updateCirclePosition(circle, event.clientX, event.clientY);
-    circle.style.background = 'white';
+    
+    const boxRect = box.getBoundingClientRect();
+    if (isCircleInBox(event.clientX, event.clientY, boxRect)) {
+      circle.style.background = 'var(--purple)';
+    } else {
+      circle.style.background = 'white';
+    }
+    
     document.body.appendChild(circle);
     lastCircle = circle;
-    isTrapped = false;
   });
 }
 
@@ -21,13 +26,11 @@ export function moveCircle() {
       let newX = event.clientX;
       let newY = event.clientY;
 
-      if (isTrapped || isCircleInBox(lastCircle, boxRect)) {
+      if (lastCircle.style.background === 'var(--purple)') {
         newX = Math.max(boxRect.left + 26, Math.min(newX, boxRect.right - 26));
         newY = Math.max(boxRect.top + 26, Math.min(newY, boxRect.bottom - 26));
+      } else if (isCircleInBox(newX, newY, boxRect)) {
         lastCircle.style.background = 'var(--purple)';
-        isTrapped = true;
-      } else {
-        lastCircle.style.background = 'white';
       }
 
       updateCirclePosition(lastCircle, newX, newY);
@@ -50,13 +53,12 @@ export function setBox() {
   window.addEventListener('resize', centerBox);
 }
 
-function isCircleInBox(circle, boxRect) {
-  const circleRect = circle.getBoundingClientRect();
+function isCircleInBox(x, y, boxRect) {
   return (
-    circleRect.left >= boxRect.left + 1 &&
-    circleRect.right <= boxRect.right - 1 &&
-    circleRect.top >= boxRect.top + 1 &&
-    circleRect.bottom <= boxRect.bottom - 1
+    x >= boxRect.left + 26 &&
+    x <= boxRect.right - 26 &&
+    y >= boxRect.top + 26 &&
+    y <= boxRect.bottom - 26
   );
 }
 
