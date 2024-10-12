@@ -33,8 +33,11 @@ export function grid() {
       button.textContent = 'Share gossip!'
       button.addEventListener('click', () => {
         if (textarea.value.trim()) {
-          gossips.unshift(textarea.value.trim())
-          renderGossips()
+          const newGossip = textarea.value.trim()
+          gossips.unshift(newGossip)
+          const newCard = createGossipCard(newGossip)
+          body.insertBefore(newCard, card.nextSibling)
+          textarea.value = ''
         }
       })
       card.append(textarea, button)
@@ -56,21 +59,20 @@ export function grid() {
 
   renderGossips()
 
-  widthRange.addEventListener('input', (e) => {
+  const updateStyles = () => {
+    const width = widthRange.value
+    const fontSize = fontSizeRange.value
+    const background = backgroundRange.value
     document.querySelectorAll('.gossip').forEach(card => {
-      card.style.width = `${e.target.value}px`
+      card.style.width = `${width}px`
+      card.style.fontSize = `${fontSize}px`
+      card.style.background = `hsl(280, 50%, ${background}%)`
     })
-  })
+  }
 
-  fontSizeRange.addEventListener('input', (e) => {
-    document.querySelectorAll('.gossip').forEach(card => {
-      card.style.fontSize = `${e.target.value}px`
-    })
-  })
+  widthRange.addEventListener('input', updateStyles)
+  fontSizeRange.addEventListener('input', updateStyles)
+  backgroundRange.addEventListener('input', updateStyles)
 
-  backgroundRange.addEventListener('input', (e) => {
-    document.querySelectorAll('.gossip').forEach(card => {
-      card.style.background = `hsl(280, 50%, ${e.target.value}%)`
-    })
-  })
+  updateStyles()
 }
