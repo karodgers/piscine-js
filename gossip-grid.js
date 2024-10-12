@@ -13,7 +13,7 @@ export function grid() {
     range.min = min;
     range.max = max;
     range.className = 'range';
-    range.value = ''; 
+    range.value = '';
     return range;
   };
 
@@ -53,11 +53,11 @@ export function grid() {
       button.textContent = 'Share gossip!';
 
       button.addEventListener('click', function (event) {
-        event.preventDefault(); 
+        event.preventDefault();
         if (textarea.value.trim()) {
           const newGossip = textarea.value.trim();
-          appendNewGossip(newGossip); 
-          textarea.value = ''; 
+          appendNewGossip(newGossip);
+          textarea.value = '';
         }
       });
 
@@ -72,11 +72,10 @@ export function grid() {
   const appendNewGossip = (gossipText) => {
     const newCard = createGossipCard(gossipText);
     const formCard = document.querySelector('.gossip-form');
-    document.body.insertBefore(newCard, formCard.nextSibling); 
+    document.body.insertBefore(newCard, formCard.nextSibling);
   };
 
   const renderGossips = () => {
-
     document.querySelectorAll('.gossip').forEach(el => el.remove());
 
     const formCard = createGossipCard('', true);
@@ -89,5 +88,5 @@ export function grid() {
     });
   };
 
-  renderGossips(); 
+  renderGossips();
 }
