@@ -36,7 +36,7 @@ export function grid() {
         if (textarea.value.trim()) {
           const newGossip = textarea.value.trim();
           gossips.unshift(newGossip);
-          renderGossips(); 
+          appendNewGossip(newGossip); 
           textarea.value = ''; 
         }
       });
@@ -46,6 +46,12 @@ export function grid() {
     }
 
     return card;
+  };
+
+  const appendNewGossip = (gossipText) => {
+    const newCard = createGossipCard(gossipText);
+    body.insertBefore(newCard, document.querySelector('.gossip-form').nextSibling); 
+    updateStyles(); 
   };
 
   const renderGossips = () => {
