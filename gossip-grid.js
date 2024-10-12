@@ -35,8 +35,7 @@ export function grid() {
         if (textarea.value.trim()) {
           const newGossip = textarea.value.trim()
           gossips.unshift(newGossip)
-          const newCard = createGossipCard(newGossip)
-          body.insertBefore(newCard, card.nextSibling)
+          renderGossips()
           textarea.value = ''
         }
       })
@@ -51,13 +50,13 @@ export function grid() {
   const renderGossips = () => {
 
     document.querySelectorAll('.gossip').forEach(el => el.remove())
-
-    body.appendChild(createGossipCard('', true))
-
+  
     gossips.forEach(gossip => body.appendChild(createGossipCard(gossip)))
+  
+    body.appendChild(createGossipCard('', true))
+  
+    updateStyles()
   }
-
-  renderGossips()
 
   const updateStyles = () => {
     const width = widthRange.value
@@ -74,5 +73,5 @@ export function grid() {
   fontSizeRange.addEventListener('input', updateStyles)
   backgroundRange.addEventListener('input', updateStyles)
 
-  updateStyles()
+  renderGossips()
 }
