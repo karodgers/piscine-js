@@ -50,11 +50,13 @@ export function grid() {
   const renderGossips = () => {
 
     document.querySelectorAll('.gossip').forEach(el => el.remove())
-  
+
+    const formCard = createGossipCard('', true)
+    formCard.classList.add('gossip-form')
+    body.appendChild(formCard)
+
     gossips.forEach(gossip => body.appendChild(createGossipCard(gossip)))
-  
-    body.appendChild(createGossipCard('', true))
-  
+
     updateStyles()
   }
 
