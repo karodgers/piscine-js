@@ -27,21 +27,13 @@ export function pick() {
   
     let lastX = -1;
     let lastY = -1;
+    let ticking = false;
   
-    body.addEventListener('mousemove', (e) => {
-      const x = e.clientX;
-      const y = e.clientY;
-  
-      if (x === lastX && y === lastY) return;
-  
-      lastX = x;
-      lastY = y;
-  
+    function updateColorAndCrosshairs(x, y) {
       const hue = Math.round((x / window.innerWidth) * 360);
       const luminosity = Math.round((y / window.innerHeight) * 100);
-  
       const hslValue = `hsl(${hue}, 50%, ${luminosity}%)`;
-      
+  
       body.style.background = hslValue;
   
       hslDiv.textContent = hslValue;
@@ -57,6 +49,24 @@ export function pick() {
       axisY.setAttribute('x2', window.innerWidth);
       axisY.setAttribute('y1', y);
       axisY.setAttribute('y2', y);
+    }
+  
+    body.addEventListener('mousemove', (e) => {
+      const x = e.clientX;
+      const y = e.clientY;
+  
+      if (x === lastX && y === lastY) return;
+  
+      lastX = x;
+      lastY = y;
+  
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateColorAndCrosshairs(x, y);
+          ticking = false;
+        });
+        ticking = true;
+      }
     });
   
     body.addEventListener('click', () => {
