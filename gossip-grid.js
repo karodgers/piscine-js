@@ -12,6 +12,7 @@ export function grid() {
     range.id = id
     range.min = min
     range.max = max
+    range.value = max 
     range.className = 'range'
     return range
   }
@@ -31,8 +32,7 @@ export function grid() {
     button.textContent = 'Share gossip!'
     button.addEventListener('click', () => {
       if (textarea.value.trim()) {
-        const newGossip = textarea.value.trim()
-        addGossip(newGossip)
+        addGossip(textarea.value.trim())
         textarea.value = ''
       }
     })
