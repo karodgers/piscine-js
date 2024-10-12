@@ -6,8 +6,7 @@ export function createCircle() {
   document.addEventListener('click', (event) => {
     const circle = document.createElement('div');
     circle.className = 'circle';
-    circle.style.left = `${event.clientX - 25}px`;
-    circle.style.top = `${event.clientY - 25}px`;
+    updateCirclePosition(circle, event.clientX, event.clientY);
     circle.style.background = 'white';
     document.body.appendChild(circle);
     lastCircle = circle;
@@ -19,20 +18,19 @@ export function moveCircle() {
   document.addEventListener('mousemove', (event) => {
     if (lastCircle) {
       const boxRect = box.getBoundingClientRect();
-      let newX = event.clientX - 25;
-      let newY = event.clientY - 25;
+      let newX = event.clientX;
+      let newY = event.clientY;
 
       if (isTrapped || isCircleInBox(lastCircle, boxRect)) {
-        newX = Math.max(boxRect.left + 1, Math.min(newX, boxRect.right - 51));
-        newY = Math.max(boxRect.top + 1, Math.min(newY, boxRect.bottom - 51));
+        newX = Math.max(boxRect.left + 26, Math.min(newX, boxRect.right - 26));
+        newY = Math.max(boxRect.top + 26, Math.min(newY, boxRect.bottom - 26));
         lastCircle.style.background = 'var(--purple)';
         isTrapped = true;
       } else {
         lastCircle.style.background = 'white';
       }
 
-      lastCircle.style.left = `${newX}px`;
-      lastCircle.style.top = `${newY}px`;
+      updateCirclePosition(lastCircle, newX, newY);
     }
   });
 }
@@ -60,4 +58,9 @@ function isCircleInBox(circle, boxRect) {
     circleRect.top >= boxRect.top + 1 &&
     circleRect.bottom <= boxRect.bottom - 1
   );
+}
+
+function updateCirclePosition(circle, x, y) {
+  circle.style.left = `${x - 25}px`;
+  circle.style.top = `${y - 25}px`;
 }
