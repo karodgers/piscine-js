@@ -26,29 +26,30 @@ export function pick() {
     body.appendChild(svg);
   
     body.addEventListener('mousemove', (e) => {
-      const x = e.clientX;
-      const y = e.clientY;
-      const hue = Math.round((x / window.innerWidth) * 360);
-      const luminosity = Math.round((y / window.innerHeight) * 100);
-  
-      const hslValue = `hsl(${hue}, 50%, ${luminosity}%)`;
+        const x = e.clientX;
+        const y = e.clientY;
+        const hue = Math.round((x / window.innerWidth) * 360);
+        const luminosity = Math.round((y / window.innerHeight) * 100);
       
-      body.style.backgroundColor = hslValue;
-  
-      hslDiv.textContent = hslValue;
-      hueDiv.textContent = `Hue: ${hue}`;
-      luminosityDiv.textContent = `Luminosity: ${luminosity}%`;
-  
-      axisX.setAttribute('x1', x);
-      axisX.setAttribute('x2', x);
-      axisX.setAttribute('y1', 0);
-      axisX.setAttribute('y2', window.innerHeight);
-  
-      axisY.setAttribute('x1', 0);
-      axisY.setAttribute('x2', window.innerWidth);
-      axisY.setAttribute('y1', y);
-      axisY.setAttribute('y2', y);
+        const hslValue = `hsl(${hue}, 50%, ${luminosity}%)`;
+        
+        body.style.background = hslValue;
+      
+        hslDiv.textContent = hslValue;
+        hueDiv.textContent = `Hue: ${hue}`;
+        luminosityDiv.textContent = `Luminosity: ${luminosity}%`;
+      
+        axisX.setAttribute('x1', x);
+        axisX.setAttribute('x2', x);
+        axisX.setAttribute('y1', 0);
+        axisX.setAttribute('y2', window.innerHeight);
+      
+        axisY.setAttribute('x1', 0);
+        axisY.setAttribute('x2', window.innerWidth);
+        axisY.setAttribute('y1', y);
+        axisY.setAttribute('y2', y);
     });
+      
   
     body.addEventListener('click', () => {
       const hslValue = hslDiv.textContent;
