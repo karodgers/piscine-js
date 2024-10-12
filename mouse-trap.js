@@ -1,65 +1,63 @@
-let currentCircle = null; 
-const boxSize = { width: 0, height: 0 }; 
-let boxElement = null; 
-
-export function setBox() {
-    boxElement = document.createElement('div');
-    boxElement.classList.add('box');
-    document.body.appendChild(boxElement);
-
-    const boxRect = boxElement.getBoundingClientRect();
-    boxSize.width = boxRect.width;
-    boxSize.height = boxRect.height;
-    boxElement.style.position = 'absolute';
-    boxElement.style.top = `${(window.innerHeight - boxSize.height) / 2}px`;
-    boxElement.style.left = `${(window.innerWidth - boxSize.width) / 2}px`;
-}
+let lastCircle = null;
+let box = null;
+let isTrapped = false;
 
 export function createCircle() {
-    document.addEventListener('click', (event) => {
-        const circle = document.createElement('div');
-        circle.classList.add('circle');
-        circle.style.background = 'white';
-        circle.style.left = `${event.clientX - 25}px`; 
-        circle.style.top = `${event.clientY - 25}px`; 
-        document.body.appendChild(circle);
-        currentCircle = circle;
-
-        checkCircleInBox(circle);
-    });
+  document.addEventListener('click', (event) => {
+    const circle = document.createElement('div');
+    circle.className = 'circle';
+    circle.style.left = `${event.clientX - 25}px`;
+    circle.style.top = `${event.clientY - 25}px`;
+    circle.style.background = 'white';
+    document.body.appendChild(circle);
+    lastCircle = circle;
+    isTrapped = false;
+  });
 }
 
 export function moveCircle() {
-    document.addEventListener('mousemove', (event) => {
-        if (currentCircle) {
-            const boxRect = boxElement.getBoundingClientRect();
-            const circleRect = currentCircle.getBoundingClientRect();
+  document.addEventListener('mousemove', (event) => {
+    if (lastCircle) {
+      const boxRect = box.getBoundingClientRect();
+      let newX = event.clientX - 25;
+      let newY = event.clientY - 25;
 
-            let newX = event.clientX - 25; 
-            let newY = event.clientY - 25; 
+      if (isTrapped || isCircleInBox(lastCircle, boxRect)) {
+        newX = Math.max(boxRect.left + 1, Math.min(newX, boxRect.right - 51));
+        newY = Math.max(boxRect.top + 1, Math.min(newY, boxRect.bottom - 51));
+        lastCircle.style.background = 'var(--purple)';
+        isTrapped = true;
+      } else {
+        lastCircle.style.background = 'white';
+      }
 
-            if (newX < boxRect.left + 1) newX = boxRect.left + 1; 
-            if (newX + circleRect.width > boxRect.right - 1) newX = boxRect.right - circleRect.width - 1; 
-            if (newY < boxRect.top + 1) newY = boxRect.top + 1; 
-            if (newY + circleRect.height > boxRect.bottom - 1) newY = boxRect.bottom - circleRect.height - 1; 
-
-            currentCircle.style.left = `${newX}px`;
-            currentCircle.style.top = `${newY}px`;
-
-            checkCircleInBox(currentCircle);
-        }
-    });
+      lastCircle.style.left = `${newX}px`;
+      lastCircle.style.top = `${newY}px`;
+    }
+  });
 }
 
-function checkCircleInBox(circle) {
-    const boxRect = boxElement.getBoundingClientRect();
-    const circleRect = circle.getBoundingClientRect();
+export function setBox() {
+  box = document.createElement('div');
+  box.className = 'box';
+  document.body.appendChild(box);
+  
+  const centerBox = () => {
+    const boxRect = box.getBoundingClientRect();
+    box.style.left = `${(window.innerWidth - boxRect.width) / 2}px`;
+    box.style.top = `${(window.innerHeight - boxRect.height) / 2}px`;
+  };
 
-    const isInside =
-        circleRect.left >= boxRect.left &&
-        circleRect.right <= boxRect.right &&
-        circleRect.top >= boxRect.top &&
-        circleRect.bottom <= boxRect.bottom;
+  centerBox();
+  window.addEventListener('resize', centerBox);
+}
 
-    circle.style.background = isInside ? 'var(--purple)' : 'white'; 
+function isCircleInBox(circle, boxRect) {
+  const circleRect = circle.getBoundingClientRect();
+  return (
+    circleRect.left >= boxRect.left + 1 &&
+    circleRect.right <= boxRect.right - 1 &&
+    circleRect.top >= boxRect.top + 1 &&
+    circleRect.bottom <= boxRect.bottom - 1
+  );
 }
