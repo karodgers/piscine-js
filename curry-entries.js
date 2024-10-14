@@ -58,7 +58,7 @@ const filterCurry = (fn) => {
     };
 }
   
-const reduceScore = (personnel) =>{
+const reduceScore = (personnel, initialValue) => {
 
     return reduceCurry(function(acc, [name, person]) {
 
@@ -67,8 +67,9 @@ const reduceScore = (personnel) =>{
       }
       return acc;
 
-    })(personnel, 0);
+    })(personnel, initialValue); 
 }
+  
   
 const filterForce = (personnel) => {
 
