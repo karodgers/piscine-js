@@ -80,8 +80,7 @@ const cartTotal = (cart) => {
 
       for (let key in nutritionFacts) {
 
-        totalFacts[key] = (nutritionFacts[key] * grams) / 100;
-
+        totalFacts[key] = Math.round((nutritionFacts[key] * grams) / 100 * 1000) / 1000;
       }
       return [item, totalFacts];
 
