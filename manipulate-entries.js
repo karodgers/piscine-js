@@ -49,13 +49,15 @@ const reduceEntries = (inputObject, combineFunction, initialValue) => {
 
 const totalCalories = (cart) => {
 
-    return reduceEntries(cart, (total, [item, grams]) => {
+    let total = reduceEntries(cart, (total, [item, grams]) => {
 
       let caloriesPer100g = nutritionDB[item].calories;
 
       return total + (caloriesPer100g * grams) / 100;
 
     }, 0);
+  
+    return Math.round(total * 10) / 10;
 };
   
 const lowCarbs = (cart) => {
