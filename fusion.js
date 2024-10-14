@@ -21,12 +21,12 @@ const fusion = (obj1, obj2) =>{
         }
       } else if (typeof obj1[key] === "string") {
 
-        if (obj2[key] !== undefined && obj2[key] !== "") {
+        if (obj2[key] !== undefined) {
 
             newObj[key] = obj1[key] + " " + obj2[key];
 
           } else {
-            
+
             newObj[key] = obj1[key];
         }
 
