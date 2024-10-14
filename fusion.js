@@ -21,7 +21,14 @@ const fusion = (obj1, obj2) =>{
         }
       } else if (typeof obj1[key] === "string") {
 
-        newObj[key] = obj1[key] + " " + (obj2[key] || "");
+        if (obj2[key] !== undefined && obj2[key] !== "") {
+
+            newObj[key] = obj1[key] + " " + obj2[key];
+
+          } else {
+            
+            newObj[key] = obj1[key];
+        }
 
       } else if (typeof obj1[key] === "number" && typeof obj2[key] === "number") {
 
