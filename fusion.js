@@ -1,4 +1,4 @@
-const fudion = (obj1, obj2) =>{
+const fusion = (obj1, obj2) =>{
 
     var newObj = {};
   
