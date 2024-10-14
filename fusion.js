@@ -8,17 +8,19 @@ const fusion = (obj1, obj2) =>{
 
       var key = keys1[i];
   
-      if (Array.isArray(obj1[key])) {
+      if (Array.isArray(obj1[key]) && Array.isArray(obj2[key])) {
 
         newObj[key] = obj1[key].slice();
 
-        if (obj2[key]) {
+        for (var j = 0; j < obj2[key].length; j++) {
 
-          for (var j = 0; j < obj2[key].length; j++) {
+          newObj[key].push(obj2[key][j]);
 
-            newObj[key].push(obj2[key][j]);
-          }
         }
+      } else if (Array.isArray(obj1[key]) && !Array.isArray(obj2[key])) {
+        
+        newObj[key] = obj2[key];
+
       } else if (typeof obj1[key] === "string") {
 
         if (obj2[key] !== undefined) {
