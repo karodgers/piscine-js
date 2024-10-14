@@ -39,11 +39,7 @@ const fusion = (obj1, obj2) =>{
       } else if (typeof obj1[key] === "object" && typeof obj2[key] === "object" && obj1[key] !== null && obj2[key] !== null) {
 
         newObj[key] = fusion(obj1[key], obj2[key]);
-        
-      } else if (typeof obj1[key] !== typeof obj2[key]) {
-
-        newObj[key] = obj2[key];
-
+    
       } else if (obj2[key] !== undefined) {
 
         newObj[key] = obj2[key];
