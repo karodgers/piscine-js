@@ -13,15 +13,18 @@ const deepCopy = (obj) =>{
 
     } else if (obj !== null && typeof obj === 'object') {
 
-      const copy = {};
+        const copy = {};
 
-      for (let i=0; i< obj.lenght; i++) {
+        const keys = Object.keys(obj);
 
-        copy[key] = deepCopy(obj[key]);
-      }
-      
-      return copy;
+        for (let i = 0; i < keys.length; i++) {
+
+          const key = keys[i];
+           
+          copy[key] = deepCopy(obj[key]);
+        }
+        return copy;
     }
     return obj;
-}
+};
   
