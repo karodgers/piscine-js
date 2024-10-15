@@ -1,38 +1,45 @@
-const deepCopy = (obj) => {
+function replica(target, ...sources) {
 
-    if (Array.isArray(obj)) {
+    for (let i = 0; i < sources.length; i++) {
 
-      const copy = [];
-      for (let i = 0; i < obj.length; i++) {
-
-        copy[i] = deepCopy(obj[i]);
-
-      }
-      return copy;
-
-    } else if (obj !== null && typeof obj === 'object') {
-
-      if (obj instanceof RegExp) {
-
-        return new RegExp(obj);
-
-      } else if (typeof obj === 'function') {
-
-        return obj; 
-      }
+      const source = sources[i];
       
-      const copy = {};
-      const keys = Object.keys(obj);
+      for (let key in source) {
 
-      for (let i = 0; i < keys.length; i++) {
+        if (source[key] instanceof RegExp) {
 
-        const key = keys[i];
+          target[key] = new RegExp(source[key]);
 
-        copy[key] = deepCopy(obj[key]);
+        } else if (typeof source[key] === 'function') {
+
+          target[key] = source[key];
+
+        } else if (Array.isArray(source[key])) {
+
+          if (!Array.isArray(target[key])) {
+
+            target[key] = [];
+          }
+
+          for (let j = 0; j < source[key].length; j++) {
+
+            target[key][j] = source[key][j];
+          }
+
+        } else if (source[key] !== null && typeof source[key] === 'object') {
+
+          if (typeof target[key] !== 'object' || target[key] === null) {
+
+            target[key] = {};
+          }
+          replica(target[key], source[key]);
+
+        } else {
+            
+          target[key] = source[key];
+        }
       }
-      
-      return copy;
     }
-    return obj;
-};
+    return target;
+}
   
