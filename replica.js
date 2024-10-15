@@ -1,9 +1,9 @@
-function replica(target, ...sources) {
+const replica = (target, ...sources) => {
 
     for (let i = 0; i < sources.length; i++) {
 
       const source = sources[i];
-      
+  
       for (let key in source) {
 
         if (source[key] instanceof RegExp) {
@@ -20,21 +20,27 @@ function replica(target, ...sources) {
 
             target[key] = [];
           }
-          for (let j = 0; j < source[key].length; j++) {
 
+          for (let j = 0; j < source[key].length; j++) {
+            
             target[key][j] = source[key][j];
           }
 
         } else if (source[key] !== null && typeof source[key] === 'object') {
 
+            if (Array.isArray(target[key])) {
+
+            target[key] = {};
+          }
           if (typeof target[key] !== 'object' || target[key] === null) {
 
             target[key] = {};
           }
+
           replica(target[key], source[key]);
 
         } else {
-            
+
           target[key] = source[key];
         }
       }
