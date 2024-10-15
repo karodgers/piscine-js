@@ -8,20 +8,22 @@ const pronoun = (str) =>{
 
       const currentWord = words[i].toLowerCase();
   
-      for (let j = 0; j < pronouns.length; j++) {
+      if (pronouns.includes(currentWord)) {
 
-        if (currentWord === pronouns[j]) {
+        if (!result[currentWord]) {
 
-          if (!result[currentWord]) {
-
-            result[currentWord] = { word: [], count: 0 };
-          }
+          result[currentWord] = { word: [], count: 0 };
+        }
   
-          result[currentWord].count++;
+        result[currentWord].count++;
   
-          if (i + 1 < words.length && !result[currentWord].word.includes(words[i + 1])) {
+        if (i + 1 < words.length) {
+
+          const nextWord = words[i + 1].toLowerCase();
+          
+          if (!pronouns.includes(nextWord)) {
             
-            result[currentWord].word.push(words[i + 1]);
+            result[currentWord].word.push(nextWord);
           }
         }
       }
