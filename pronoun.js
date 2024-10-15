@@ -1,7 +1,7 @@
-const pronoun = (str) => {
+const pronoun = (str) =>{
 
     const pronouns = ['i', 'you', 'he', 'she', 'it', 'they', 'we'];
-    const words = str.split(' ');
+    const words = str.replace(/[\n,]/g, ' ').split(' ');
     const result = {};
   
     for (let i = 0; i < words.length; i++) {
@@ -28,4 +28,4 @@ const pronoun = (str) => {
     }
   
     return result;
-};
+}
