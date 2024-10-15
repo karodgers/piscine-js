@@ -1,9 +1,8 @@
-const deepCopy = (obj) =>{
+const deepCopy = (obj) => {
 
     if (Array.isArray(obj)) {
 
       const copy = [];
-
       for (let i = 0; i < obj.length; i++) {
 
         copy[i] = deepCopy(obj[i]);
@@ -13,17 +12,26 @@ const deepCopy = (obj) =>{
 
     } else if (obj !== null && typeof obj === 'object') {
 
-        const copy = {};
+      if (obj instanceof RegExp) {
 
-        const keys = Object.keys(obj);
+        return new RegExp(obj);
 
-        for (let i = 0; i < keys.length; i++) {
+      } else if (typeof obj === 'function') {
 
-          const key = keys[i];
-           
-          copy[key] = deepCopy(obj[key]);
-        }
-        return copy;
+        return obj; 
+      }
+      
+      const copy = {};
+      const keys = Object.keys(obj);
+
+      for (let i = 0; i < keys.length; i++) {
+
+        const key = keys[i];
+
+        copy[key] = deepCopy(obj[key]);
+      }
+      
+      return copy;
     }
     return obj;
 };
