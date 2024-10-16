@@ -29,16 +29,15 @@ const throttle = (func, wait) => {
 }
 
 
-const opThrottle = (func, wait = 0, options = { leading: false, trailing: true }) => {
-   
-    if (options.leading && options.trailing){
-        
-        return throttle(func, wait);
-    } 
+const opThrottle = (func, wait = 0, options) => {
+    
+    const { leading = false, trailing = true } = options || {};
+
+    if (leading && trailing) return throttle(func, wait);
 
     let lastExecutionTime = 0;
-    let pendingArgs = null;
     let timer = null;
+    let pendingArgs = null;
 
     const execute = (args) => {
         func(...args);
@@ -48,8 +47,8 @@ const opThrottle = (func, wait = 0, options = { leading: false, trailing: true }
 
     const scheduleExecution = () => {
         if (pendingArgs) {
-            timer = null;
             execute(pendingArgs);
+            timer = null; 
         }
     };
 
@@ -57,16 +56,19 @@ const opThrottle = (func, wait = 0, options = { leading: false, trailing: true }
         const now = Date.now();
         const timeSinceLastCall = now - lastExecutionTime;
 
-        if (options.leading && timeSinceLastCall >= wait) {
+        if (leading && timeSinceLastCall >= wait) {
             execute(args);
-        } else {
-            pendingArgs = args;
-            if (options.trailing && !timer) {
+        }
+
+        if (trailing) {
+            if (!timer) {
                 timer = setTimeout(scheduleExecution, wait - timeSinceLastCall);
             }
+            pendingArgs = args; 
         }
     };
-}
+};
+
 
   
   
