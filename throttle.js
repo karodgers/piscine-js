@@ -33,33 +33,43 @@ const opThrottle = (func, wait, options = {}) => {
     let lastTime = 0;
     let timeout;
     let lastArgs;
+    let result;
   
-    return function (...args) {
+    const throttled = function (...args) {
 
       const now = Date.now();
       const remaining = wait - (now - lastTime);
   
       lastArgs = args;
   
-      if (remaining <= 0 || remaining > wait) {
-        
-        if (timeout) {
-          clearTimeout(timeout);
-          timeout = null;
+      return new Promise((resolve) => {
+
+        if (remaining <= 0 || remaining > wait) {
+          if (timeout) {
+            clearTimeout(timeout);
+            timeout = null;
+          }
+          lastTime = now;
+          result = func.apply(this, args);
+          resolve(result);
+
+        } else if (!timeout && options.trailing !== false) {
+
+          timeout = setTimeout(() => {
+            lastTime = options.leading === false ? 0 : Date.now();
+            timeout = null;
+            result = func.apply(this, lastArgs);
+            resolve(result);
+          }, remaining);
+
+        } else {
+          resolve(result);
         }
-        lastTime = now;
-        func.apply(this, args);
-
-      } else if (!timeout && options.trailing !== false) {
-
-        timeout = setTimeout(() => {
-          lastTime = options.leading === false ? 0 : Date.now();
-          timeout = null;
-          func.apply(this, lastArgs);
-        }, remaining);
-      }
+      });
     };
-};
+  
+    return throttled;
+}
   
   
   
