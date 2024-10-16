@@ -1,14 +1,30 @@
 const throttle = (func, wait) => {
-
+    
     let lastTime = 0;
+    
+    let timeout;
   
-    return function() {
+    return function(...args) {
 
       const now = Date.now();
-      
-      if (now - lastTime >= wait) {
+
+      if (!lastTime || now - lastTime >= wait) {
+
         lastTime = now;
-        func(); 
+
+        func(...args);
+
+      } else {
+
+        clearTimeout(timeout); 
+
+        timeout = setTimeout(() => {
+
+          lastTime = Date.now();
+
+          func(...args); 
+
+        }, wait - (now - lastTime));
       }
     };
 }
