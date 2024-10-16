@@ -1,7 +1,6 @@
 const throttle = (func, wait) => {
     
     let lastTime = 0;
-    
     let timeout;
   
     return function(...args) {
@@ -29,7 +28,7 @@ const throttle = (func, wait) => {
     };
 }
 
-const opThrottle = (func, wait, options) =>{
+function opThrottle(func, wait, options) {
 
     let lastTime = 0;
     let timeout;
@@ -37,20 +36,23 @@ const opThrottle = (func, wait, options) =>{
     return function() {
 
       const now = Date.now();
-      
+  
       if (options.leading && now - lastTime >= wait) {
-        func(); 
-        lastTime = now;
+        func();
+        lastTime = now; 
       }
   
       clearTimeout(timeout);
-
+  
       timeout = setTimeout(() => {
+
         if (options.trailing) {
           func(); 
+          lastTime = Date.now(); 
         }
-      }, wait);
+      }, wait); 
     };
 }
+  
   
   
