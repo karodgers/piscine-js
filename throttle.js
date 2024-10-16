@@ -29,41 +29,45 @@ const throttle = (func, wait) => {
 }
 
 
-function opThrottle(func, wait, options = {}) {
-    let timeout = null;
-    let lastExec = 0;
-    let lastArgs = null;
-    const { leading = true, trailing = true } = options;
-  
-    return function (...args) {
-      const context = this;
-      const now = Date.now();
-  
-      if (!lastExec && !leading) {
-        lastExec = now;
-      }
-  
-      const remaining = wait - (now - lastExec);
-  
-      if (remaining <= 0 || remaining > wait) {
-        if (timeout) {
-          clearTimeout(timeout);
-          timeout = null;
+const opThrottle = (func, wait = 0, options = { leading: false, trailing: true }) => {
+   
+    if (options.leading && options.trailing){
+        
+        return throttle(func, wait);
+    } 
+
+    let lastExecutionTime = 0;
+    let pendingArgs = null;
+    let timer = null;
+
+    const execute = (args) => {
+        func(...args);
+        lastExecutionTime = Date.now();
+        pendingArgs = null;
+    };
+
+    const scheduleExecution = () => {
+        if (pendingArgs) {
+            timer = null;
+            execute(pendingArgs);
         }
-        func.apply(context, args);
-        lastExec = now;
-        lastArgs = null;
-      } else if (!timeout && trailing) {
-        lastArgs = args;
-        timeout = setTimeout(() => {
-          func.apply(context, lastArgs);
-          lastExec = Date.now();
-          lastArgs = null;
-          timeout = null;
-        }, remaining);
-      }
+    };
+
+    return (...args) => {
+        const now = Date.now();
+        const timeSinceLastCall = now - lastExecutionTime;
+
+        if (options.leading && timeSinceLastCall >= wait) {
+            execute(args);
+        } else {
+            pendingArgs = args;
+            if (options.trailing && !timer) {
+                timer = setTimeout(scheduleExecution, wait - timeSinceLastCall);
+            }
+        }
     };
 }
+
   
   
   
