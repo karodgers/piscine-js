@@ -1,10 +1,9 @@
-const neuron = (data) => {
-  
+function neuron(data) {
   if (data.length === 0) {
     return {};
   }
 
-  var output = { questions: {}, orders: {} };
+  var output = { questions: {}, orders: {}, affirmations: {} };
 
   for (var i = 0; i < data.length; i++) {
     var parts = data[i].split(' - ');
@@ -29,6 +28,13 @@ const neuron = (data) => {
         output.orders[key] = { order: description, responses: [] };
       }
       output.orders[key].responses.push(response);
+    }
+
+    if (category === 'affirmations') {
+      if (!output.affirmations[key]) {
+        output.affirmations[key] = { affirmation: description, responses: [] };
+      }
+      output.affirmations[key].responses.push(response);
     }
   }
 
