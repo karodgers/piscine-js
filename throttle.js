@@ -28,7 +28,7 @@ const throttle = (func, wait) => {
     };
 }
 
-const opThrottlle = (callback, delay, config = { startImmediately: true, endAfterDelay: true }) => {
+const opThrottle = (callback, delay, config = { startImmediately: true, endAfterDelay: true }) => {
    
     let isActive = false;
     let timeoutId;
