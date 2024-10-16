@@ -28,33 +28,38 @@ const throttle = (func, wait) => {
     };
 }
 
-const opThrottle = (func, wait, options) => {
+const opThrottle = (func, wait, options = {}) => {
 
-    let lastTime = 0;   
-    let timeout;        
-    let leadingCalled = false; 
-
-    return function(...args) {
+    let lastTime = 0;
+    let timeout;
+    let lastArgs;
+  
+    return function (...args) {
 
       const now = Date.now();
+      const remaining = wait - (now - lastTime);
   
-      if (options.leading && !leadingCalled && now - lastTime >= wait) {
-        func(...args);     
-        lastTime = now;  
-        leadingCalled = true; 
-      }
+      lastArgs = args;
   
-      clearTimeout(timeout);
-  
-      timeout = setTimeout(() => {
-        if (options.trailing) {
-          func(...args);  
+      if (remaining <= 0 || remaining > wait) {
+        
+        if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
         }
-        lastTime = Date.now(); 
-        leadingCalled = false; 
-      }, wait);
+        lastTime = now;
+        func.apply(this, args);
+
+      } else if (!timeout && options.trailing !== false) {
+
+        timeout = setTimeout(() => {
+          lastTime = options.leading === false ? 0 : Date.now();
+          timeout = null;
+          func.apply(this, lastArgs);
+        }, remaining);
+      }
     };
-}
+};
   
   
   
