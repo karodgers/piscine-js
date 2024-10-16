@@ -1,6 +1,6 @@
-const flags = (obj) => {
+function flags(obj) {
 
-    var alias = {};
+    var alias = { h: 'help' }; 
     var descriptions = [];
   
     for (var key in obj) {
@@ -12,10 +12,6 @@ const flags = (obj) => {
       } else if (key === 'divide') {
 
         alias['d'] = 'divide';
-
-      } else if (key === 'help') {
-
-        alias['h'] = 'help';
       }
     }
   
@@ -29,11 +25,11 @@ const flags = (obj) => {
       }
 
     } else {
-        
-      for (var i = 0; i < obj.help.length; i++) {
 
+        for (var i = 0; i < obj.help.length; i++) {
         var flag = obj.help[i];
         var aliasKey = flag[0];
+        
         if (obj[flag]) {
           descriptions.push('-' + aliasKey + ', --' + flag + ': ' + obj[flag]);
         }
