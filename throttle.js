@@ -29,15 +29,13 @@ const throttle = (func, wait) => {
 }
 
 
-const opThrottle = (func, wait, options = {}) => {
-
+function opThrottle(func, wait, options = {}) {
     let timeout = null;
     let lastExec = 0;
     let lastArgs = null;
     const { leading = true, trailing = true } = options;
   
     return function (...args) {
-        
       const context = this;
       const now = Date.now();
   
@@ -48,18 +46,14 @@ const opThrottle = (func, wait, options = {}) => {
       const remaining = wait - (now - lastExec);
   
       if (remaining <= 0 || remaining > wait) {
-
         if (timeout) {
           clearTimeout(timeout);
           timeout = null;
         }
-
         func.apply(context, args);
         lastExec = now;
         lastArgs = null;
-
       } else if (!timeout && trailing) {
-
         lastArgs = args;
         timeout = setTimeout(() => {
           func.apply(context, lastArgs);
@@ -70,6 +64,7 @@ const opThrottle = (func, wait, options = {}) => {
       }
     };
 }
+  
   
   
   
