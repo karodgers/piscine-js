@@ -28,37 +28,33 @@ const throttle = (func, wait) => {
     };
 }
 
-const opThrottle = (func, wait, options = {}) => {
-    let timeout;
-    let lastCall = 0;
-    const { leading = true, trailing = true } = options;
-  
-    return function throttled(...args) {
-      const now = Date.now();
-  
-      if (leading && !timeout) {
-        lastCall = now; 
-        const result = func.apply(this, args);
-        timeout = setTimeout(() => {
-          timeout = null;
-          if (trailing) {
-            lastCall = Date.now(); 
-            func.apply(this, args);
-          }
-        }, wait);
-        return result; 
-      } else {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-          timeout = null;
-          if (trailing) {
-            lastCall = Date.now(); 
-            func.apply(this, args);
-          }
-        }, wait - (now - lastCall));
-      }
+const opThrottlle = (callback, delay, config = { startImmediately: true, endAfterDelay: true }) => {
+   
+    let isActive = false;
+    let timeoutId;
+
+    return (...args) => {
+        const executeCallback = () => {
+            isActive = false;
+            if (config.endAfterDelay) {
+                callback(...args);
+            }
+        };
+
+        if (!isActive) {
+            if (config.startImmediately) {
+                callback(...args);
+            }
+            isActive = true;
+
+            timeoutId = setTimeout(executeCallback, delay);
+        } else if (config.endAfterDelay) {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(executeCallback, delay);
+        }
     };
-  };
+}
+
   
 
   
