@@ -28,47 +28,47 @@ const throttle = (func, wait) => {
     };
 }
 
+
 const opThrottle = (func, wait, options = {}) => {
 
-    let lastTime = 0;
-    let timeout;
-    let lastArgs;
-    let result;
+    let timeout = null;
+    let lastExec = 0;
+    let lastArgs = null;
+    const { leading = true, trailing = true } = options;
   
-    const throttled = function (...args) {
-
+    return function (...args) {
+        
+      const context = this;
       const now = Date.now();
-      const remaining = wait - (now - lastTime);
   
-      lastArgs = args;
+      if (!lastExec && !leading) {
+        lastExec = now;
+      }
   
-      return new Promise((resolve) => {
+      const remaining = wait - (now - lastExec);
+  
+      if (remaining <= 0 || remaining > wait) {
 
-        if (remaining <= 0 || remaining > wait) {
-          if (timeout) {
-            clearTimeout(timeout);
-            timeout = null;
-          }
-          lastTime = now;
-          result = func.apply(this, args);
-          resolve(result);
-
-        } else if (!timeout && options.trailing !== false) {
-
-          timeout = setTimeout(() => {
-            lastTime = options.leading === false ? 0 : Date.now();
-            timeout = null;
-            result = func.apply(this, lastArgs);
-            resolve(result);
-          }, remaining);
-
-        } else {
-          resolve(result);
+        if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
         }
-      });
+
+        func.apply(context, args);
+        lastExec = now;
+        lastArgs = null;
+
+      } else if (!timeout && trailing) {
+
+        lastArgs = args;
+        timeout = setTimeout(() => {
+          func.apply(context, lastArgs);
+          lastExec = Date.now();
+          lastArgs = null;
+          timeout = null;
+        }, remaining);
+      }
     };
-  
-    return throttled;
 }
   
   
