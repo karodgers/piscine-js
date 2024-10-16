@@ -1,9 +1,5 @@
-function neuron(data) {
-  if (data.length === 0) {
-    return {};
-  }
-
-  var output = { questions: {}, orders: {}, affirmations: {} };
+const neuron = (data) =>{
+  var output = {};
 
   for (var i = 0; i < data.length; i++) {
     var parts = data[i].split(' - ');
@@ -17,6 +13,9 @@ function neuron(data) {
     var key = description.replace(/\s+/g, '_').replace(/[^\w_]/g, '').toLowerCase();
 
     if (category === 'questions') {
+      if (!output.questions) {
+        output.questions = {};
+      }
       if (!output.questions[key]) {
         output.questions[key] = { question: description, responses: [] };
       }
@@ -24,6 +23,9 @@ function neuron(data) {
     }
 
     if (category === 'orders') {
+      if (!output.orders) {
+        output.orders = {};
+      }
       if (!output.orders[key]) {
         output.orders[key] = { order: description, responses: [] };
       }
@@ -31,6 +33,9 @@ function neuron(data) {
     }
 
     if (category === 'affirmations') {
+      if (!output.affirmations) {
+        output.affirmations = {};
+      }
       if (!output.affirmations[key]) {
         output.affirmations[key] = { affirmation: description, responses: [] };
       }
