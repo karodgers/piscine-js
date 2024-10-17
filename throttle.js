@@ -12,15 +12,10 @@ const throttle = (mainFunction, delay) => {
       }
     };
 }
-
-function opThrottle(func, wait, option = { leading: true, trailing: true }) {
+const opThrottle = (func, wait, option = { leading: true, trailing: true }) =>{
     let waiting = false;
     let lastArgs = null;
     let lastResult = undefined;
-
-    if (!option) {
-        option = { leading: true, trailing: true };
-    }
 
     return function wrapper(...args) {
         const invokeFunction = () => {
@@ -30,27 +25,23 @@ function opThrottle(func, wait, option = { leading: true, trailing: true }) {
 
         if (!waiting) {
             waiting = true;
-
             if (option.leading) {
                 invokeFunction();
             } else {
                 lastArgs = args;
             }
-
             const startWaitingPeriod = () => setTimeout(() => {
                 if (option.trailing && lastArgs) {
                     invokeFunction();
-                } else {
-                    waiting = false;
                 }
+                waiting = false;
             }, wait);
-
             startWaitingPeriod();
         } else {
             lastArgs = args;
         }
 
-        return option ? 0 : lastResult;
+        return lastResult;
     };
 }
 
