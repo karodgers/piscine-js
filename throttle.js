@@ -29,7 +29,6 @@ const throttle = (func, wait) => {
 }
 
 function opThrottle(func, wait, option = { leading: true, trailing: true }) {
-   
     let waiting = false;
     let lastArgs = null;
     let lastResult = undefined;
@@ -66,7 +65,7 @@ function opThrottle(func, wait, option = { leading: true, trailing: true }) {
             lastArgs = args;
         }
 
-        return 0;
+        return option ? 0 : lastResult;
     };
 }
 
