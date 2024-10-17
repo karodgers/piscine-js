@@ -30,6 +30,7 @@ const throttle = (func, wait) => {
 
 
 const opThrottle = (func, wait = 0, options = { leading: false, trailing: true }) => {
+    
     let lastArgs, lastContext;
     let timer = null;
     let result;
@@ -49,6 +50,7 @@ const opThrottle = (func, wait = 0, options = { leading: false, trailing: true }
         if (isLeading) {
             invoke();
             invoked = true;
+            return result; 
         }
 
         if (!timer) {
@@ -65,9 +67,10 @@ const opThrottle = (func, wait = 0, options = { leading: false, trailing: true }
             invoked = true;
         }
 
-        return result;
+        return result;  
     };
-};
+}
+
 
 
 
