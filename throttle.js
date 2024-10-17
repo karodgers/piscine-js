@@ -29,53 +29,33 @@ const throttle = (func, wait) => {
 }
 
 
-const opThrottle = (func, wait = 0, options = {leading: false, trailing: true}) => {
-   
-    let lastArgs, lastContext, timer, lastCallTime;
-    let result;
+const opThrottle = (func, wait = 0, options = { leading: false, trailing: true }) => {
+    
+    let lastArgs, lastContext;
+    let leadingCalled = false;
   
-    const invoke = () => {
-      result = func.apply(lastContext, lastArgs);
-      lastArgs = lastContext = null;
-    };
-  
-    const shouldInvoke = (time) => {
-      const timeSinceLastCall = time - lastCallTime;
-      return !lastCallTime || timeSinceLastCall >= wait;
-    };
+    const throttled = throttle(function() {
+      func.apply(lastContext, lastArgs);
+    }, wait);
   
     return function(...args) {
-        
-      const time = Date.now();
       lastArgs = args;
       lastContext = this;
   
-      if (shouldInvoke(time)) {
-
-        if (!timer && options.leading) {
-
-          lastCallTime = time;
-          invoke();
-
-        } else {
-
-          if (timer) {
-            clearTimeout(timer);
-          }
-
-          timer = setTimeout(() => {
-            lastCallTime = Date.now();
-            timer = null;
-            if (options.trailing) {
-              invoke();
-            }
-          }, wait);
-        }
+      if (options.leading && !leadingCalled) {
+        func.apply(this, args);
+        leadingCalled = true;
+        
+      } else if (options.trailing) {
+        throttled();
       }
   
-      return result;
+      if (!options.leading) {
+        leadingCalled = false;  
+      }
     };
 };
+  
 
 
 
