@@ -9,28 +9,33 @@ const throttle = (func, wait) => {
         }
     };
 }
-const opThrottle = (func, wait, options = { leading: true, trailing: true }) =>{
+function opThrottle(func, wait, options = { leading: true, trailing: true }) {
+   
     let lastTime = 0;
     let timeout;
     let lastArgs;
-    let lastCallTime;
+    let leadingInvoked = false;
 
     return function(...args) {
         const now = Date.now();
+        const isFirstCall = lastTime === 0;
+        const remainingTime = isFirstCall ? 0 : wait - (now - lastTime);
+
         lastArgs = args;
-        if (!lastCallTime && options.leading === false) {
-            lastCallTime = now;
-        }
 
-        const remainingTime = wait - (now - lastTime);
-
-        if (remainingTime <= 0 || remainingTime > wait) {
+        if (remainingTime <= 0 || isFirstCall) {
             if (timeout) {
                 clearTimeout(timeout);
                 timeout = null;
             }
+
+            if (options.leading && !leadingInvoked) {
+                leadingInvoked = true;
+                lastTime = now;
+                return func(...args);
+            }
+
             lastTime = now;
-            lastCallTime = now;
             return func(...args);
         } else if (options.trailing && !timeout) {
             timeout = setTimeout(() => {
