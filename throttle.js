@@ -33,40 +33,40 @@ const opThrottle = (func, wait = 0, options = { leading: false, trailing: true }
     
     let invoked = false;
     let timer;
-    
-    return function(...args) {
+    let lastResult;
 
+    return function(...args) {
         if (options.leading && !invoked) {
-            func.apply(this, args);  
+            lastResult = func.apply(this, args);  
             invoked = true;
         }
-        
+
         if (!timer) {
-
+            
             timer = setTimeout(() => {
-
                 if (options.trailing) {
-                    func.apply(this, args);  
+                    lastResult = func.apply(this, args); 
                 }
                 invoked = false;  
-                timer = null; 
-
+                timer = null;  
             }, wait);
-            
-        } else if (options.trailing) {
 
+        } else if (options.trailing) {
+            
             clearTimeout(timer); 
             timer = setTimeout(() => {
                 if (options.trailing) {
-                    func.apply(this, args); 
+                    lastResult = func.apply(this, args);  
                 }
                 invoked = false;
                 timer = null;
-
             }, wait);
         }
+
+        return lastResult; 
     };
 };
+
 
   
 
