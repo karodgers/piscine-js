@@ -28,51 +28,83 @@ const throttle = (func, wait) => {
     };
 }
 
+function opThrottle(func, wait, option = { leading: true, trailing: true }) {
+    
+    let waiting = false;
+    let lastArgs = null;
 
-const opThrottle = (func, wait = 0, options = { leading: false, trailing: true }) => {
-    let lastArgs, lastContext;
-    let timer = null;
-    let result;
-    let invoked = false;
-    let leadingExecuted = false;
+    return function wrapper(...args) {
+       
+        if (!waiting) {
+            waiting = true;
 
-    const invoke = () => {
-        result = func.apply(lastContext, lastArgs);
-        lastArgs = lastContext = null;
-    };
-
-    return function (...args) {
-        lastArgs = args;
-        lastContext = this;
-
-        if (options.leading && !invoked) {
-            invoke();
-            invoked = true;
-            leadingExecuted = true;
-            if (!options.trailing) {
-                return result;  
-            }
-        }
-
-        if (!timer) {
-            timer = setTimeout(() => {
-                timer = null;
-                if (options.trailing && (invoked || leadingExecuted)) {
-                    invoke(); 
+            const startWaitingPeriod = () => setTimeout(() => {
+               
+                if (option.trailing && lastArgs) {
+                    func.apply(this, lastArgs);
+                    lastArgs = null;
+                    startWaitingPeriod();
+                } else {
+                    waiting = false;
                 }
-                invoked = false; 
-                leadingExecuted = false; 
             }, wait);
-        }
 
-        if (options.trailing && !options.leading) {
-            invoked = true;  
-        }
+            if (option.leading) {
 
-        return result; 
+                func.apply(this, args);
+            } else {
+                lastArgs = args; 
+            }
+
+            startWaitingPeriod();
+            
+        } else {
+            lastArgs = args;
+        }
     };
-};
+}
 
+
+// const opThrottle = (func, wait = 0, options = { leading: false, trailing: true }) => {
+//     let lastArgs, lastContext;
+//     let timer = null;
+//     let result;
+//     let invoked = false;
+
+//     const invoke = () => {
+//         result = func.apply(lastContext, lastArgs);
+//         lastArgs = lastContext = null;
+//     };
+
+//     return function (...args) {
+//         lastArgs = args;
+//         lastContext = this;
+
+//         const isLeading = options.leading && !invoked;
+
+//         if (isLeading) {
+//             invoke();
+//             invoked = true;
+//             return result; 
+//         }
+
+//         if (!timer) {
+//             timer = setTimeout(() => {
+//                 timer = null;
+//                 if (options.trailing && invoked) {
+//                     invoke();
+//                 }
+//                 invoked = false;
+//             }, wait);
+//         }
+
+//         if (options.trailing && !isLeading) {
+//             invoked = true;
+//         }
+
+//         return result;  
+//     };
+// }
 
 
 
