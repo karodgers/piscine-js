@@ -29,40 +29,47 @@ const throttle = (func, wait) => {
 }
 
 function opThrottle(func, wait, option = { leading: true, trailing: true }) {
-    
+   
     let waiting = false;
     let lastArgs = null;
+    let lastResult = undefined;
+
+    if (!option) {
+        option = { leading: true, trailing: true };
+    }
 
     return function wrapper(...args) {
-       
+        const invokeFunction = () => {
+            lastResult = func.apply(this, args);
+            lastArgs = null;
+        };
+
         if (!waiting) {
             waiting = true;
 
+            if (option.leading) {
+                invokeFunction();
+            } else {
+                lastArgs = args;
+            }
+
             const startWaitingPeriod = () => setTimeout(() => {
-               
                 if (option.trailing && lastArgs) {
-                    func.apply(this, lastArgs);
-                    lastArgs = null;
-                    startWaitingPeriod();
+                    invokeFunction();
                 } else {
                     waiting = false;
                 }
             }, wait);
 
-            if (option.leading) {
-
-                func.apply(this, args);
-            } else {
-                lastArgs = args; 
-            }
-
             startWaitingPeriod();
-            
         } else {
             lastArgs = args;
         }
+
+        return 0;
     };
 }
+
 
 
 // const opThrottle = (func, wait = 0, options = { leading: false, trailing: true }) => {
