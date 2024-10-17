@@ -1,25 +1,17 @@
-const throttle = (func, wait) => {
-    let lastTime = 0;
-    let timeout = null;
+
+const throttle = (mainFunction, delay) => {
+
+    let timerFlag = null; 
   
-    return function (...args) {
-      const now = Date.now();
-  
-      const executeFunction = () => {
-        func.apply(this, args);
-        lastTime = now;
-      };
-  
-      if (lastTime === 0 || now - lastTime >= wait) {
-        executeFunction();
-      } else if (!timeout) {
-        timeout = setTimeout(() => {
-          executeFunction();
-          timeout = null;
-        }, wait - (now - lastTime));
+    return (...args) => {
+      if (timerFlag === null) { 
+        mainFunction(...args);  
+        timerFlag = setTimeout(() => { 
+          timerFlag = null; 
+        }, delay);
       }
     };
-};
+}
 
 function opThrottle(func, wait, option = { leading: true, trailing: true }) {
     let waiting = false;
