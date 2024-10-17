@@ -47,42 +47,43 @@ const throttle = (mainFunction, delay) => {
 //     };
 // }
 
-const opThrottle = (func, delay, { leading = false, trailing = true } = {}) => {
-   
-    let lastTime = 0;
-    let timer = null;
+const opThrottle = (func, delay, options = {}) => {
 
-    const executeFunc = (context, args) => {
-
-        func.apply(context, args);
-        lastTime = Date.now();
-    };
+    const { leading = false, trailing = true } = options;
+    let timeout = null;
+    let lastExecuted = 0;
 
     return function(...args) {
 
         const currentTime = Date.now();
-        const timeElapsed = currentTime - lastTime;
 
-        const shouldExecute = timeElapsed > delay;
-        const shouldSchedule = !timer && trailing;
+        if (!lastExecuted && !leading) {
+            lastExecuted = currentTime;
+        }
 
-        if (shouldExecute) {
+        const timeDifference = currentTime - lastExecuted;
 
-            if (timer) clearTimeout(timer); 
-            executeFunc(this, args);
+        if (timeDifference > delay) {
 
-        } else if (shouldSchedule) {
+            if (timeout) {
+                clearTimeout(timeout);
+                timeout = null;
+            }
 
-            timer = setTimeout(() => {
-                executeFunc(this, args);
-                timer = null; 
-            }, delay - timeElapsed);
+            func.apply(this, args);
+            lastExecuted = currentTime;
 
-        } else if (!lastTime && !leading) {
-            lastTime = currentTime; 
+        } else if (!timeout && !trailing) {
+            
+            timeout = setTimeout(() => {
+                func.apply(this, args);
+                lastExecuted = Date.now();
+                timeout = null;
+            }, delay);
         }
     };
 }
+
 
 
 
