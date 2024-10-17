@@ -28,34 +28,40 @@ const throttle = (func, wait) => {
     };
 }
 
-const opThrottle = (callback, delay, options = { startImmediately: true, endAfterDelay: true }) => {
-   
-    let isActive = false;
-    let timeoutId;
-    let lastResult;
+const opThrottle = (func, wait, options = {}) => {
 
-    return (...args) => {
+    let timeout = null;
+    let lastCall = 0;
+    let lastArgs = null;
+    const { leading = true, trailing = true } = options;
+  
+    return function (...args) {
+      const now = Date.now();
+  
+      if (!lastCall && !leading) {
+        lastCall = now;
+      }
+  
+      const remaining = wait - (now - lastCall);
+  
+      if (remaining <= 0 || remaining > wait) {
 
-        const invokeCallback = () => {
-            isActive = false;
-            if (options.endAfterDelay) {
-                lastResult = callback(...args);
-            }
-        };
-
-        if (!isActive) {
-            if (options.startImmediately) {
-                lastResult = callback(...args);
-            }
-            isActive = true;
-
-            timeoutId = setTimeout(invokeCallback, delay);
-        } else if (options.endAfterDelay) {
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(invokeCallback, delay);
+        if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
         }
+        lastCall = now;
+        func.apply(this, args);
 
-        return lastResult; 
+      } else if (!timeout && trailing) {
+        
+        lastArgs = args;
+        timeout = setTimeout(() => {
+          lastCall = leading ? Date.now() : 0;
+          timeout = null;
+          func.apply(this, lastArgs);
+        }, remaining);
+      }
     };
 }
 
