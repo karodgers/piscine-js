@@ -1,76 +1,44 @@
 const throttle = (func, wait) => {
-    
+    let lastTime = 0;
+
+    return function(...args) {
+        const now = Date.now();
+        if (now - lastTime >= wait) {
+            lastTime = now;
+            return func(...args);
+        }
+    };
+}
+const opThrottle = (func, wait, options = { leading: true, trailing: true }) =>{
     let lastTime = 0;
     let timeout;
-  
-    return function(...args) {
-
-      const now = Date.now();
-
-      if (!lastTime || now - lastTime >= wait) {
-
-        lastTime = now;
-
-        func(...args);
-
-      } else {
-
-        clearTimeout(timeout); 
-
-        timeout = setTimeout(() => {
-
-          lastTime = Date.now();
-
-          func(...args); 
-
-        }, wait - (now - lastTime));
-      }
-    };
-}
-
-
-const opThrottle = (func, wait = 0, options = {leading: false, trailing: true}) =>{
-    
-    let lastArgs, lastContext;
-    let timer = null;
-    let result;
-
-    const invoke = () => {
-        result = func.apply(lastContext, lastArgs);
-        lastArgs = lastContext = null;
-    };
+    let lastArgs;
+    let lastCallTime;
 
     return function(...args) {
+        const now = Date.now();
         lastArgs = args;
-        lastContext = this;
-
-        const isLeading = options.leading && !timer;
-
-        if (isLeading) {
-            invoke();
+        if (!lastCallTime && options.leading === false) {
+            lastCallTime = now;
         }
 
-        if (!timer) {
-            timer = setTimeout(() => {
-                timer = null;
-                if (options.trailing) {
-                    invoke();
+        const remainingTime = wait - (now - lastTime);
+
+        if (remainingTime <= 0 || remainingTime > wait) {
+            if (timeout) {
+                clearTimeout(timeout);
+                timeout = null;
+            }
+            lastTime = now;
+            lastCallTime = now;
+            return func(...args);
+        } else if (options.trailing && !timeout) {
+            timeout = setTimeout(() => {
+                timeout = null;
+                if (options.trailing && lastArgs) {
+                    func(...lastArgs);
                 }
-            }, wait);
+            }, remainingTime);
         }
-
-        return result;
     };
 }
-
-
-
-
-
-
-  
-
-  
-  
-  
-  
