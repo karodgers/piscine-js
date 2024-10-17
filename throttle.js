@@ -30,11 +30,11 @@ const throttle = (func, wait) => {
 
 
 const opThrottle = (func, wait = 0, options = { leading: false, trailing: true }) => {
-    
     let lastArgs, lastContext;
     let timer = null;
     let result;
     let invoked = false;
+    let leadingExecuted = false;
 
     const invoke = () => {
         result = func.apply(lastContext, lastArgs);
@@ -45,31 +45,34 @@ const opThrottle = (func, wait = 0, options = { leading: false, trailing: true }
         lastArgs = args;
         lastContext = this;
 
-        const isLeading = options.leading && !invoked;
-
-        if (isLeading) {
+        if (options.leading && !invoked) {
             invoke();
             invoked = true;
-            return result; 
+            leadingExecuted = true;
+            if (!options.trailing) {
+                return result;  
+            }
         }
 
         if (!timer) {
             timer = setTimeout(() => {
                 timer = null;
-                if (options.trailing && invoked) {
-                    invoke();
+                if (options.trailing && (invoked || leadingExecuted)) {
+                    invoke(); 
                 }
-                invoked = false;
+                invoked = false; 
+                leadingExecuted = false; 
             }, wait);
         }
 
-        if (options.trailing && !isLeading) {
-            invoked = true;
+        if (options.trailing && !options.leading) {
+            invoked = true;  
         }
 
-        return result;  
+        return result; 
     };
-}
+};
+
 
 
 
