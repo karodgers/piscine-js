@@ -29,34 +29,42 @@ const throttle = (func, wait) => {
 }
 
 
-const opThrottle = (taskToRun, waitTime = 0, options = {startImmediately: false, endAfterWait: true}) => {
+const opThrottle = (func, wait = 0, options = {leading: false, trailing: true}) =>{
     
-    let hasRun = false;
-    let timeoutId = null; 
+    let lastArgs, lastContext;
+    let timer = null;
+    let result;
 
-    function runTaskLater(taskArguments) {
-        hasRun = false;
-        if (options.endAfterWait) {
-            taskToRun.apply(null, taskArguments); 
+    const invoke = () => {
+        result = func.apply(lastContext, lastArgs);
+        lastArgs = lastContext = null;
+    };
+
+    return function(...args) {
+        lastArgs = args;
+        lastContext = this;
+
+        const isLeading = options.leading && !timer;
+
+        if (isLeading) {
+            invoke();
         }
-    }
 
-    return function() {
-        if (!hasRun) {
-            let taskArguments = arguments; 
-
-            if (options.startImmediately) {
-                taskToRun.apply(null, taskArguments); 
-            }
-
-            hasRun = true; 
-            clearTimeout(timeoutId); 
-            timeoutId = setTimeout(function() {
-                runTaskLater(taskArguments); 
-            }, waitTime);
+        if (!timer) {
+            timer = setTimeout(() => {
+                timer = null;
+                if (options.trailing) {
+                    invoke();
+                }
+            }, wait);
         }
+
+        return result;
     };
 }
+
+
+
 
 
 
