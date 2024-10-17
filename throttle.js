@@ -18,30 +18,25 @@ const opThrottle = (func, wait, option = { leading: true, trailing: true }) =>{
     let lastResult = undefined;
 
     return function wrapper(...args) {
-        const invokeFunction = () => {
-            lastResult = func.apply(this, args);
-            lastArgs = null;
-        };
-
         if (!waiting) {
             waiting = true;
             if (option.leading) {
-                invokeFunction();
+                lastResult = func.apply(this, args);
             } else {
                 lastArgs = args;
             }
-            const startWaitingPeriod = () => setTimeout(() => {
+            setTimeout(() => {
                 if (option.trailing && lastArgs) {
-                    invokeFunction();
+                    lastResult = func.apply(this, lastArgs);
+                    lastArgs = null;
                 }
                 waiting = false;
             }, wait);
-            startWaitingPeriod();
         } else {
             lastArgs = args;
         }
 
-        return lastResult;
+        return option.leading || option.trailing ? lastResult : undefined;
     };
 }
 
