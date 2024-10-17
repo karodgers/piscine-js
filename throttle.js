@@ -13,37 +13,74 @@ const throttle = (mainFunction, delay) => {
 }
 
 
-const opThrottle = (func, wait = 0, options = {leading: false, trailing: true}) =>{
+// const opThrottle = (func, wait = 0, options = {leading: false, trailing: true}) =>{
     
-    let lastArgs, lastContext;
-    let timer = null;
-    let result;
+//     let lastArgs, lastContext;
+//     let timer = null;
+//     let result;
 
-    const invoke = () => {
-        result = func.apply(lastContext, lastArgs);
-        lastArgs = lastContext = null;
+//     const invoke = () => {
+//         result = func.apply(lastContext, lastArgs);
+//         lastArgs = lastContext = null;
+//     };
+
+//     return function(...args) {
+//         lastArgs = args;
+//         lastContext = this;
+
+//         const isLeading = options.leading && !timer;
+
+//         if (isLeading) {
+//             invoke();
+//         }
+
+//         if (!timer) {
+//             timer = setTimeout(() => {
+//                 timer = null;
+//                 if (options.trailing) {
+//                     invoke();
+//                 }
+//             }, wait);
+//         }
+
+//         return result;
+//     };
+// }
+
+const opThrottle = (func, delay, { leading = false, trailing = true } = {}) => {
+   
+    let lastTime = 0;
+    let timer = null;
+
+    const executeFunc = (context, args) => {
+
+        func.apply(context, args);
+        lastTime = Date.now();
     };
 
     return function(...args) {
-        lastArgs = args;
-        lastContext = this;
 
-        const isLeading = options.leading && !timer;
+        const currentTime = Date.now();
+        const timeElapsed = currentTime - lastTime;
 
-        if (isLeading) {
-            invoke();
-        }
+        const shouldExecute = timeElapsed > delay;
+        const shouldSchedule = !timer && trailing;
 
-        if (!timer) {
+        if (shouldExecute) {
+
+            if (timer) clearTimeout(timer); 
+            executeFunc(this, args);
+
+        } else if (shouldSchedule) {
+
             timer = setTimeout(() => {
-                timer = null;
-                if (options.trailing) {
-                    invoke();
-                }
-            }, wait);
-        }
+                executeFunc(this, args);
+                timer = null; 
+            }, delay - timeElapsed);
 
-        return result;
+        } else if (!lastTime && !leading) {
+            lastTime = currentTime; 
+        }
     };
 }
 
