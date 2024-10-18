@@ -1,5 +1,5 @@
 const retry = (count, callback) => {
-
+ 
   return async (...args) => {
     let attempts = 0;
     while (true) {
@@ -8,7 +8,7 @@ const retry = (count, callback) => {
       } catch (error) {
         attempts++;
         if (attempts > count) {
-          throw error;  
+          throw error;
         }
       }
     }
@@ -18,13 +18,21 @@ const retry = (count, callback) => {
 const timeout = (delay, callback) => {
   
   return async (...args) => {
+    let timeoutId;
     const timeoutPromise = new Promise((_, reject) => {
-      setTimeout(() => reject(new Error('timeout')), delay);
+      timeoutId = setTimeout(() => reject(new Error('timeout')), delay);
     });
 
-    return Promise.race([
-      callback(...args),
-      timeoutPromise
-    ]);
+    try {
+      const result = await Promise.race([
+        callback(...args),
+        timeoutPromise
+      ]);
+      clearTimeout(timeoutId);
+      return [result]; 
+    } catch (error) {
+      clearTimeout(timeoutId);
+      throw error;
+    }
   };
 };
