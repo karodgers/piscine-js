@@ -1,33 +1,28 @@
 const getJSON = async (path, params = {}) => {
-
+    
     const url = new URL(path);
-
-    Object.entries(params).forEach(([key, value]) => {
-      url.searchParams.append(key, value);
-    });
+    
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
   
     try {
 
       const response = await fetch(url);
   
       if (!response.ok) {
-        throw new Error(response.statusText);
+        throw new Error(response.statusText); 
       }
   
-      const jsonData = await response.json();
+      const result = await response.json();
   
-      if (jsonData.error) {
-        throw new Error(jsonData.error);
+      if (result.error) {
+        throw new Error(result.error); 
       }
   
-      if (jsonData.data) {
-        return jsonData.data;
-      }
+      return result.data;
   
-      throw new Error(error);
-      
     } catch (error) {
 
-      throw error;
+      throw new Error(error.message);
     }
-};
+}
+  
