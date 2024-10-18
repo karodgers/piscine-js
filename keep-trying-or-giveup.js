@@ -1,15 +1,13 @@
 const retry = (count, callback) => {
-  return async function (...args) {
+  return async (...args) => {
     let attempts = 0;
-
-    while (attempts <= count) {
+    while (true) {
       try {
         return await callback(...args);
       } catch (error) {
         attempts++;
-
         if (attempts > count) {
-          throw new Error('Too many errors');
+          throw new Error(`Failed after ${count} retries: ${error.message}`);
         }
       }
     }
@@ -17,21 +15,14 @@ const retry = (count, callback) => {
 };
 
 const timeout = (delay, callback) => {
-  return async function (...args) {
-    return new Promise((resolve, reject) => {
-      const timer = setTimeout(() => {
-        reject(new Error('timeout'));
-      }, delay);
-
-      callback(...args)
-        .then(result => {
-          clearTimeout(timer);
-          resolve(result);
-        })
-        .catch(error => {
-          clearTimeout(timer);
-          reject(error);
-        });
+  return async (...args) => {
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('timeout')), delay);
     });
+
+    return Promise.race([
+      callback(...args),
+      timeoutPromise
+    ]);
   };
 };
