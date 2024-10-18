@@ -1,5 +1,5 @@
 const retry = (count, callback) => {
-
+  
   return async (...args) => {
     let attempts = 0;
     while (attempts <= count) {
@@ -16,7 +16,7 @@ const retry = (count, callback) => {
 };
 
 const timeout = (delay, callback) => {
-  
+
   return async (...args) => {
     const timeoutPromise = new Promise((_, reject) => {
       setTimeout(() => reject(new Error('timeout')), delay);
@@ -28,10 +28,7 @@ const timeout = (delay, callback) => {
         timeoutPromise
       ]);
     } catch (error) {
-      if (error.message === 'timeout') {
-        return new Error('timeout');
-      }
-      throw error;
+      throw new Error(error.message);
     }
   };
 };
