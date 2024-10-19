@@ -1,17 +1,32 @@
 const all = (promisesObj) =>{
 
+    const resolvedObj = {};
     const keys = Object.keys(promisesObj);
-    
-    const promises = keys.map(key => promisesObj[key]);
   
-    return Promise.all(promises).then(results => {
-
-        const resolvedObj = {};
+    return new Promise((resolve, reject) => {
+      if (keys.length === 0) {
+        resolve({});
+        return;
+      }
   
-      keys.forEach((key, index) => {
-        resolvedObj[key] = results[index];
+      let resolvedCount = 0;
+  
+      keys.forEach(key => {
+        
+        const promise = promisesObj[key];
+        promise.then(result => {
+          resolvedObj[key] = result;
+          resolvedCount++;
+  
+          if (resolvedCount === keys.length) {
+            resolve(resolvedObj);
+          }
+        }).catch(error => {
+          reject(error);
+        });
       });
-  
-      return resolvedObj; 
     });
 }
+  
+ 
+  
