@@ -17,14 +17,14 @@ function some(promises, count) {
     }
 
     return new Promise((resolve, reject) => {
-        const results = new Array(promises.length);
+        const results = new Array(promises.length).fill(undefined);
         let resolvedCount = 0;
         let settled = false;
 
         const checkAndResolve = () => {
             if (resolvedCount === count && !settled) {
                 settled = true;
-                resolve(results.slice(0, promises.length).filter(v => v !== undefined));
+                resolve(results.slice(0, count));
             }
         };
 
@@ -32,13 +32,19 @@ function some(promises, count) {
             Promise.resolve(p)
                 .then(value => {
                     if (settled) return;
-                    results[index] = value;
-                    resolvedCount++;
-                    checkAndResolve();
+                    if (resolvedCount < count) {
+                        results[index] = value;
+                        resolvedCount++;
+                        checkAndResolve();
+                    }
                 })
                 .catch(error => {
                     if (settled) return;
-                    reject(error);
+                    if (resolvedCount < count) {
+                        results[index] = undefined;
+                        resolvedCount++;
+                        checkAndResolve();
+                    }
                 });
         });
     });
