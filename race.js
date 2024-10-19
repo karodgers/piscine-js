@@ -21,25 +21,24 @@ function some(promises, count) {
         let resolvedCount = 0;
         let settled = false;
 
-        const checkAndResolve = () => {
-            if (resolvedCount === count && !settled) {
-                settled = true;
-                resolve(results.slice(0, promises.length).filter(v => v !== undefined));
-            }
-        };
-
         promises.forEach((p, index) => {
             Promise.resolve(p)
                 .then(value => {
                     if (settled) return;
                     results[index] = value;
                     resolvedCount++;
-                    checkAndResolve();
+                    if (resolvedCount === count) {
+                        settled = true;
+                        resolve(results.slice(0, index + 1).filter(v => v !== undefined));
+                    }
                 })
                 .catch(() => {
                     if (settled) return;
                     resolvedCount++;
-                    checkAndResolve();
+                    if (resolvedCount === count) {
+                        settled = true;
+                        resolve(results.slice(0, index + 1).filter(v => v !== undefined));
+                    }
                 });
         });
     });
