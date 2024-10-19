@@ -5,12 +5,13 @@ function race(promises) {
       for (let i = 0; i < promises.length; i++) {
 
         let p = promises[i];
-  
+
         if (p instanceof Promise) {
 
-            p.then(resolve).catch(reject);
+          p.then(resolve).catch(reject);
 
         } else {
+
           resolve(p);
         }
       }
@@ -19,8 +20,12 @@ function race(promises) {
   
 function some(promises, count) {
 
-    if (promises.length === 0 || count === 0) {
-      return new Promise((resolve) => resolve(undefined)); 
+    if (count === 0) {
+      return new Promise((resolve) => resolve([]));
+    }
+  
+    if (promises.length === 0) {
+      return new Promise((resolve) => resolve([]));
     }
   
     return new Promise((resolve, reject) => {
@@ -29,23 +34,25 @@ function some(promises, count) {
       let resolvedCount = 0;
   
       for (let i = 0; i < promises.length; i++) {
-        
+
         let p = promises[i];
   
         if (p instanceof Promise) {
 
-            p.then((value) => {
+          p.then((value) => {
             resolvedValues.push(value);
             resolvedCount++;
-
+            
             if (resolvedCount === count) {
-              resolve(resolvedValues); 
+              resolve(resolvedValues);
             }
-          }).catch(reject); 
+          }).catch(reject);
+
         } else {
 
           resolvedValues.push(p);
           resolvedCount++;
+
           if (resolvedCount === count) {
             resolve(resolvedValues);
           }
@@ -53,5 +60,4 @@ function some(promises, count) {
       }
     });
 }
-  
   
