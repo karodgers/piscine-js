@@ -12,25 +12,30 @@ function race(promises) {
 }
 
 function some(promises, count) {
-    if (count === 0 || promises.length === 0) {
-        return Promise.resolve([]);
+    if (promises.length === 0 || count === 0) {
+        return Promise.resolve(undefined);
     }
 
     return new Promise((resolve, reject) => {
-        const results = new Array(promises.length);
+        const results = [];
         let resolvedCount = 0;
         let settled = false;
+
+        const checkAndResolve = () => {
+            if (resolvedCount === count && !settled) {
+                settled = true;
+                resolve(results);
+            }
+        };
 
         promises.forEach((p, index) => {
             Promise.resolve(p)
                 .then(value => {
                     if (settled) return;
-                    results[index] = value;
-                    resolvedCount++;
-
-                    if (resolvedCount === count) {
-                        settled = true;
-                        resolve(results.slice(0, promises.length).filter(v => v !== undefined));
+                    if (resolvedCount < count) {
+                        results[index] = value;
+                        resolvedCount++;
+                        checkAndResolve();
                     }
                 })
                 .catch(error => {
