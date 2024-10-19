@@ -12,12 +12,8 @@ function race(promises) {
 }
 
 function some(promises, count) {
-    if (promises.length === 0) {
+    if (promises.length === 0 || count < 1) {
         return Promise.resolve([]);
-    }
-
-    if (count === 0) {
-        return Promise.resolve(undefined);
     }
 
     return new Promise((resolve, reject) => {
