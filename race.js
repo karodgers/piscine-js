@@ -12,7 +12,11 @@ function race(promises) {
 }
 
 function some(promises, count) {
-    if (promises.length === 0 || count === 0) {
+    if (promises.length === 0) {
+        return Promise.resolve([]);
+    }
+
+    if (count === 0) {
         return Promise.resolve(undefined);
     }
 
@@ -33,7 +37,7 @@ function some(promises, count) {
                 .then(value => {
                     if (settled) return;
                     if (resolvedCount < count) {
-                        results[index] = value;
+                        results.push(value);
                         resolvedCount++;
                         checkAndResolve();
                     }
