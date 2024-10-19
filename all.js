@@ -12,18 +12,29 @@ const all = (promisesObj) =>{
       let resolvedCount = 0;
   
       keys.forEach(key => {
-        
-        const promise = promisesObj[key];
-        promise.then(result => {
-          resolvedObj[key] = result;
-          resolvedCount++;
+        const value = promisesObj[key];
   
+        if (value && typeof value.then === 'function') {
+
+          value.then(result => {
+            resolvedObj[key] = result;
+            resolvedCount++;
+            
+            if (resolvedCount === keys.length) {
+              resolve(resolvedObj);
+            }
+          }).catch(error => {
+            reject(error);
+          });
+        } else {
+
+          resolvedObj[key] = value;
+          resolvedCount++;
+
           if (resolvedCount === keys.length) {
             resolve(resolvedObj);
           }
-        }).catch(error => {
-          reject(error);
-        });
+        }
       });
     });
 }
